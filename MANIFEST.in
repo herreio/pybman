@@ -1,0 +1,11 @@
+# meta
+include COPYING
+include MANIFEST.in
+include README.rst
+include requirements.txt
+
+# local data
+include pybman/static/elastic/*.json
+
+# python byte code
+global-exclude *.pyc

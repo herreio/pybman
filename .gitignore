@@ -1,0 +1,11 @@
+*.pyc
+*.swp
+
+/env
+/dist
+/build
+/pybman.egg-info
+
+__pycache__
+
+dev.py
