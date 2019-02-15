@@ -10,7 +10,9 @@ This is a python3 package (under development) for interacting with `MPG.PuRe <ht
 Usage
 -----
 
-For a preview install the package via ``pip`` and then in the python console::
+For a preview install the package via ` ``pip`` <https://pypi.org/project/pybman/>`_ and then in the python console:
+
+.. code:: python
 
     from pybman import Pybman
     # choose a context by id
