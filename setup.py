@@ -14,7 +14,7 @@ setuptools.setup(
     author_email="pypi@herre.io",
     maintainer="Donatus Herre",
     maintainer_email="pypi@herre.io",
-    license="GPLv3",
+    license="GPL",
     description="Python package (under development) for interacting with MPG.PuRe",
     long_description=README,
     url="https://github.com/herreio/pybman/",
