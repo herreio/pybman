@@ -90,6 +90,16 @@ class DataSet:
                 genres.append(record['data']['metadata']['genre'])
         return genres
 
+    # get list of genres from collection
+    def get_genre_data(self):
+        genres = {}
+        for record in self.records:
+            if record['data']['metadata']['genre'] in genres:
+                genres[record['data']['metadata']['genre']].append(record)
+            else:
+                genres[record['data']['metadata']['genre']] = [record]
+        return genres
+
     # get publication places of items
     def get_places(self):
         places = {}
@@ -159,21 +169,32 @@ class DataSet:
             if 'datePublishedInPrint' in record['data']['metadata']:
                 year = record['data']['metadata']['datePublishedInPrint'].split("-")[0]
                 if year in years:
-                    years[year].append(record['data'])
+                    years[year].append(record)
                 else:
-                    years[year] = [record['data']]
+                    years[year] = [record]
             elif 'datePublishedOnline' in record['data']['metadata']:
                 year = record['data']['metadata']['datePublishedOnline'].split("-")[0]
                 if year in years:
-                    years[year].append(record['data'])
+                    years[year].append(record)
                 else:
-                    years[year] = [record['data']]
+                    years[year] = [record]
             else:
                 print("no publication date found for", record['data']['objectId'])
         return years
 
-    def get_languages(self):
-        pass
+    def get_languages_data(self):
+        languages = {}
+        for record in self.records:
+            if 'languages' in record['data']['metadata']:
+                lang = record['data']['metadata']['languages']
+                if len(lang) == 1:
+                    if lang[0] in languages:
+                        languages[lang[0]].append(record)
+                    else:
+                        languages[lang[0]] = [record]
+                else:
+                    print(record['data']['objectId'], "has more than one language!")
+        return languages
 
     # get identifiers from sources of items
     def get_sources_identifiers(self):
