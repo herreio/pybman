@@ -16,8 +16,10 @@ class Pybman:
         self.pers_data = None
         self.loc_data = None
 
-        if load:
-            self.loc_data = local.LocalData(base_dir=data_dir)
+        self.loc_data = local.LocalData(base_dir=data_dir)
+
+        # if load:
+        #    self.loc_data = local.LocalData(base_dir=data_dir)
 
         if ou_id:
             if type(ou_id) == str:
