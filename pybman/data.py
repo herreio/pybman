@@ -37,6 +37,25 @@ class DataSet:
                     creators.append(creator)
         return creators
 
+    def get_creators_data(self):
+        creators = {}
+        for record in self.records:
+            if 'creators' in record['data']['metadata']:
+                creators_list = record['data']['metadata']['creators']
+                for creator in creators_list:
+                    if 'person' in creator:
+                        if 'identifier' in creator['person']:
+                            idx = creator['person']['identifier']['id']
+                            if idx in creators:
+                                creators[idx].append(record)
+                            else:
+                                creators[idx] = [record]
+                        else:
+                            print("no identifier found for", record['data']['objectId'])
+                    else:
+                        print("no person found for", record['data']['objectId'])
+        return creators
+
     def get_cone_persons(self):
         persons = {}
         for creator in self.get_creators():
@@ -143,6 +162,9 @@ class DataSet:
                             else:
                                 publishers[publisher] = [record['data']['objectId']]
         return publishers
+
+    def get_journals(self):
+        pass
 
     def get_years(self):
         years = {}
