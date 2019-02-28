@@ -8,6 +8,9 @@ base = 'https://pure.mpg.de/'
 # rest interface
 api = base + 'rest/'
 
+api_login = api + 'login'
+api_logout = api + 'logout'
+
 items = api + 'items/'
 items_search = items + 'search?'
 

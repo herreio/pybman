@@ -1,12 +1,14 @@
 name = 'pybman'
 
+from pybman import auth
 from pybman import data
 from pybman import local
 from pybman import export
+from pybman import export2
 
 class Pybman:
 
-    def __init__( self, ou_id='', ctx_id='', data_dir='./data/', load=False):
+    def __init__( self, ou_id='', ctx_id='', data_dir='./data/', load=False, login=False):
 
         self.ou_id = ou_id
         self.ctx_id = ctx_id
@@ -16,7 +18,14 @@ class Pybman:
         self.pers_data = None
         self.loc_data = None
 
+        self.controller = export2.Controller()
+
         self.loc_data = local.LocalData(base_dir=data_dir)
+
+        # self.auth = None
+
+        # if login:
+        #    auth.Auth()
 
         # if load:
         #    self.loc_data = local.LocalData(base_dir=data_dir)

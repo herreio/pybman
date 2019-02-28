@@ -1,4 +1,7 @@
 import json
+import requests
+
+from urllib.parse import urlencode
 
 # write given list (results) to file at path
 def write_list(path, results):
@@ -35,3 +38,31 @@ def write_json(path, data):
         s = json.dumps(data, indent=2)
         f.write(s)
     return path
+
+# send get request to fetch data
+def get_request(url, params=None, headers=None):
+    if params:
+        params = urlencode(params)
+        url = url + params
+    if headers:
+        response = requests.get(url, headers=headers)
+    else:
+        response = requests.get(url)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print("something went wrong while requesting data!")
+        return {}
+
+# send a post request with data
+def post_request(url, params, header, data):
+    if params:
+        params = urlencode(params)
+        url = url + params
+    payload = json.dumps(data)
+    response = requests.post(url, headers=header, data=payload)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print("something went wrong while requesting data!")
+        return {}
