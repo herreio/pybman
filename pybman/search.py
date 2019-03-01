@@ -2,9 +2,9 @@ from pybman.utils import read_json
 from pybman.local import resolve_path
 
 # search query templates
-ou_query = resolve_path('static/elastic/ou.json')
-ctx_query = resolve_path('static/elastic/ctx.json')
-pers_query = resolve_path('static/elastic/pers.json')
+ou_query = resolve_path('static/elastic/ou-backup.json')
+ctx_query = resolve_path('static/elastic/ctx-backup.json')
+pers_query = resolve_path('static/elastic/pers-backup.json')
 
 # get organisation query with given id
 def get_ou_query(ou_id):

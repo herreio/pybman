@@ -1,5 +1,6 @@
 import json
 import requests
+import pkg_resources
 
 from urllib.parse import urlencode
 
@@ -77,6 +78,7 @@ def post_request(url, params=None, headers=None, data=None, json_res=True):
         print("got status code", response.status_code,"!")
         return {}
 
+# send a put request with data
 def put_request(url, header, data):
     payload = json.dumps(data)
     response = requests.put(url,headers=header,data=payload)
@@ -84,3 +86,7 @@ def put_request(url, header, data):
         return response.json()
     else:
         print("something went wrong while requesting data!")
+
+# resolve path of package files
+def resolve_path(path):
+    return pkg_resources.resource_filename('pybman', path)

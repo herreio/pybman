@@ -108,12 +108,15 @@ class ItemRestController(LoginRestController):
         self.query = {"query": {"term": {"context.objectId": {"value": "ctx_924547", "boost": 1.0}}},
                       "size": "50", "from": "0"}
 
-    def search_items(self, query):
+    def search_items(self, query=None):
         self.records = []
         url = self.rest_items_search # + params
         params = self.params
         headers = self.header
-        data = self.query
+        if query:
+            data = query
+        else:
+            data = self.query
         response = utils.post_request(url, params, headers, data)
         scrollId = response['scrollId']
         self.records += response['records']
@@ -204,6 +207,30 @@ class ContextRestController(RestController):
 
     def get_all(self):
         return utils.get_request(self.rest_contexts)
+
+class FeedRestController(RestController):
+
+    def __init__(self):
+
+        super().__init__()
+
+        self.rest_feed = self.rest + 'feed/'
+        self.rest_feed_oa = self.rest_feed + 'oa'
+        self.rest_feed_organization = self.rest_feed + 'organization/$'
+        self.rest_feed_recent = self.rest_feed + 'recent'
+        self.rest_feed_search = self.rest_feed + 'search'
+
+    def get_recent_oa(self):
+        pass
+
+    def get_recent_releases_for_ou(self):
+        pass
+
+    def get_recent_releases(self):
+        pass
+
+    def get_search_as_feed(self):
+        pass
 
 
 class ConeController(BaseController):
