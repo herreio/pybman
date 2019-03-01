@@ -4,7 +4,7 @@ from pybman import auth
 from pybman import data
 from pybman import local
 from pybman import export
-from pybman import export2
+# from pybman import export2
 
 class Pybman:
 
@@ -18,7 +18,7 @@ class Pybman:
         self.pers_data = None
         self.loc_data = None
 
-        self.controller = export2.Controller()
+        # self.controller = export2.Controller(login)
 
         self.loc_data = local.LocalData(base_dir=data_dir)
 
