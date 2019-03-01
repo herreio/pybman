@@ -1,6 +1,8 @@
 *.pyc
 *.swp
 
+.idea
+
 /env
 /dist
 /build
