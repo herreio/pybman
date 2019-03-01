@@ -1,0 +1,14 @@
+{"query" : {
+  "bool" : {
+    "must" : [ {
+      "term" : {
+        "metadata.creators.person.identifier.id" : {
+          "value" : "/persons/resource/personsXXXXX",
+          "boost" : 1.0
+        }
+      }
+    } ],
+    "adjust_pure_negative" : true,
+    "boost" : 1.0
+  }
+},"size" : "500","from" : "0"}

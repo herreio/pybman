@@ -1,0 +1,12 @@
+{
+    "query": {
+        "term": {
+            "context.objectId": {
+                "value":"xxx",
+                "boost":1.0
+            }
+        }
+    },
+    "size" : "500",
+    "from" : "0"
+}
