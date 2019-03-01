@@ -40,7 +40,7 @@ def write_json(path, data):
     return path
 
 # send get request to fetch data
-def get_request(url, params=None, headers=None):
+def get_request(url, params=None, headers=None, json_response=True):
     if params:
         params = urlencode(params)
         url = url + params
@@ -49,20 +49,38 @@ def get_request(url, params=None, headers=None):
     else:
         response = requests.get(url)
     if response.status_code == 200:
-        return response.json()
+        if json_response:
+            return response.json()
+        else:
+            return response
     else:
         print("something went wrong while requesting data!")
         return {}
 
 # send a post request with data
-def post_request(url, params, header, data):
+def post_request(url, params=None, headers=None, data=None, json_res=True):
     if params:
         params = urlencode(params)
         url = url + params
+    if type(data) == dict:
+        payload = json.dumps(data)
+    else:
+        payload = data
+    response = requests.post(url, headers=headers, data=payload)
+    if response.status_code == 200:
+        if json_res:
+            return response.json()
+        else:
+            return response
+    else:
+        print("something went wrong while requesting data!")
+        print("got status code", response.status_code,"!")
+        return {}
+
+def put_request(url, header, data):
     payload = json.dumps(data)
-    response = requests.post(url, headers=header, data=payload)
+    response = requests.put(url,headers=header,data=payload)
     if response.status_code == 200:
         return response.json()
     else:
         print("something went wrong while requesting data!")
-        return {}
