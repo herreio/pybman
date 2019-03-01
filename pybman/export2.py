@@ -1,7 +1,7 @@
 import atexit
 
 from pybman import utils
-# from pybman.auth import Auth
+from copy import deepcopy
 
 
 class BaseController:
@@ -49,6 +49,10 @@ class LoginRestController(RestController):
         self.grants = None
         self.roles = None
 
+        self.accept = {'accept': 'application/json'}
+        self.header = {'accept': 'application/json','Content-Type': 'application/json'}
+        self.auth_header = deepcopy(self.accept)
+
         if auth:
             # read user credentials
             self.secret = utils.read_json(cred)
@@ -62,25 +66,14 @@ class LoginRestController(RestController):
     def login(self):
         if self.secret:
             data = self.secret['user-pass']
-            headers = {
-                'accept': 'application/json',
-                'Content-Type': 'application/json'}
-            # params = False
-            # response = utils.post_request(self.rest_login, params, headers, data, json_response=False)
-            # return requests.post(self.rest_login, headers=headers, data=data)
-            response = utils.post_request(self.rest_login, headers=headers, data=data, json_res=False)
-            # response = requests.post(self.rest_login, headers=headers, data=data)
+            response = utils.post_request(self.rest_login, headers=self.header, data=data, json_res=False)
             self.token = response.headers['Token']
+            self.auth_header['Authorization'] = self.token
         else:
             print("login failed! please provide credentials!")
 
     def get_user(self):
-        headers = {
-            'accept': 'application/json',
-            'Authorization': self.token}
-        response = utils.get_request(self.rest_login_who, headers=headers)
-        # response = requests.get(self.rest_login_who, headers=headers)
-        # grantlist = response.json()['grantList']
+        response = utils.get_request(self.rest_login_who, headers=self.auth_header)
         grantlist = response['grantList']
         grants = {}
         for grant in grantlist:
@@ -94,11 +87,7 @@ class LoginRestController(RestController):
 
     # func to logout via REST
     def logout(self):
-        headers = {
-            'accept': 'application/json',
-            'Authorization': self.token}
-        response = utils.get_request(self.rest_logout, headers=headers, json_response=False)
-        # response = requests.get(api_logout, headers=headers)
+        response = utils.get_request(self.rest_logout, headers=self.auth_header, json_response=False)
         print(response.text)
 
 
