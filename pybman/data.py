@@ -1,5 +1,5 @@
-from pybman import local
-from pybman import export
+# from pybman import local
+# from pybman import export
 
 class DataSet:
 
@@ -77,13 +77,13 @@ class DataSet:
                             persons[cone_id] = name
         return persons
 
-    def init_pers_data(self):
-        pers_data = []
-        for p in self.persons:
-            p_data = export.get_pers(p)
-            p_idx = p.split('/')[-1]
-            pers_data.append(DataSet(p_idx,data=p_data))
-        return pers_data
+#    def init_pers_data(self):
+#        pers_data = []
+#        for p in self.persons:
+#            p_data = export.get_pers(p)
+#            p_idx = p.split('/')[-1]
+#            pers_data.append(DataSet(p_idx,data=p_data))
+#        return pers_data
 
     # get titles of items
     def get_titles(self):
