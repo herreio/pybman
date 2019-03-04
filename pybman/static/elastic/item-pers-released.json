@@ -1,0 +1,34 @@
+{
+    "query" : {
+        "bool" : {
+            "must" : [ {
+                "term" : {
+                    "publicState" : {
+                        "value" : "RELEASED",
+                        "boost" : 1.0
+                    }
+                }
+            },
+            {
+                "term" : {
+                    "versionState" : {
+                        "value" : "RELEASED",
+                        "boost" : 1.0
+                    }
+                }
+            },
+            {
+                "term" : {
+                    "metadata.creators.person.identifier.id" : {
+                        "value" : "xxx",
+                        "boost" : 1.0
+                    }
+                }
+            } ],
+            "adjust_pure_negative" : true,
+            "boost" : 1.0
+        }
+    },
+    "size" : "500",
+    "from" : "0"
+}
