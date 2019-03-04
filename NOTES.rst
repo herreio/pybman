@@ -6,6 +6,7 @@ Tasks
 
 * search for authors
 * citation retrieval (csl?)
+* Client method ``save_data``
 
 
 Modules
@@ -14,11 +15,12 @@ Modules
 present
 ^^^^^^^
 
+* client
 * data
-* export
+* inspector
 * local
+* query
 * rest
-* search
 * utils
 
 
@@ -26,6 +28,4 @@ planned
 ^^^^^^^
 
 * cite
-* cone
-* static
 * stats
