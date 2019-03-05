@@ -1,16 +1,9 @@
 import os
-import pkg_resources
 
 from datetime import date
 
 from pybman import data
 from pybman import utils
-
-from pybman.data import DataSet
-
-# from pybman.utils import read_plain_clean
-# from pybman.utils import write_list
-# from pybman.utils import read_json, write_json
 
 class LocalData:
 
@@ -136,9 +129,5 @@ class LocalData:
         else:
             print("failed to remove file from entity", idx)
 
-
 #    def store_titles_local(self, idx, data):
 #        pass
-
-# def resolve_path(path):
-#    return pkg_resources.resource_filename('pybman', path)
