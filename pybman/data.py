@@ -182,7 +182,7 @@ class DataSet:
                 else:
                     years[year] = [record['data']['objectId']]
             else:
-                print("no publicatiion date found for", record['data']['objectId'])
+                print("no publication date found for", record['data']['objectId'])
         return years
 
     def get_years_data(self):
