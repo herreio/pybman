@@ -46,20 +46,35 @@ class Client:
 
     def update_data(self, idx, data, comment):
         updated_data = self.item_rest.update_item(idx, data)
-        response = self.item_rest.release_item(idx, updated_data, 'auto-update: title stripped')
-        print("successfully updated data with id", response['objectId'])
+        if updated_data:
+            response = self.item_rest.release_item(idx, updated_data, comment)
+            if response:
+                print("successfully updated data with id", response['objectId'])
+                return response
+            else:
+                print("something went wrong while releasing item with id", idx)
+                return None
+        else:
+            print("something went wrong while updating item with id", idx)
+            return None
 
-    def inspect_titles(self, data):
-        print("starting title inspection!")
-        # create inspector instance
+    # def clean_init(self, data):
+    #    self.inspector = inspector.Inspector(data.records)
+
+    def clean_titles(self, data=None):
+        print("start cleaning title data!")
+        # create inspector instance if necessary
         self.inspector = inspector.Inspector(data.records)
         ### inspect publication titles ###
+        print("inspecting publishing titles:")
         clean_data = self.inspector.check_publication_titles(clean=True)
+        total = 0
         if clean_data:
             counter = 0
             for k in clean_data:
-                self.update_data(k, clean_data[k]['data'], 'auto-update: publication title stripped')
-                counter += 1
+                updated = self.update_data(k, clean_data[k]['data'], 'auto-update: publication title stripped')
+                if updated:
+                    counter += 1
             print("updated", counter, "publication titles!")
             total += counter
         else:
@@ -70,10 +85,46 @@ class Client:
         if clean_data:
             counter = 0
             for k in clean_data:
-                self.update_data(k, clean_data[k]['data'], 'auto-update: source title stripped')
-                counter += 1
+                updated = self.update_data(k, clean_data[k]['data'], 'auto-update: source title stripped')
+                if updated:
+                    counter += 1
             print("updated", counter, "source titles!")
             total += counter
         else:
             print("source title data is already clean! nothing to do...")
         print("updated", total, "items.")
+        return total
+
+    def clean_publishers(self, data=None):
+        print("start cleaning publisher data!")
+        # create inspector instance if necessary
+        self.inspector = inspector.Inspector(data.records)
+        clean_data = self.inspector.check_publishers(clean=True)
+        total = 0
+        if clean_data:
+            for k in clean_data:
+                updated = self.update_data(k, clean_data[k]['data'], 'auto-update: publisher stripped')
+                if updated:
+                    total += 1
+        else:
+            print("publishing place data is already clean!")
+            print("nothing to do...")
+        print("updated", total, "items!")
+        return total
+
+    def clean_publishing_places(self, data=None):
+        print("start cleaning publishing place data!")
+        # create inspector instance if necessary
+        self.inspector = inspector.Inspector(data.records)
+        clean_data = self.inspector.check_publishing_places(clean=True)
+        total = 0
+        if clean_data:
+            for k in clean_data:
+                updated = self.update_data(k, clean_data[k]['data'], 'auto-update: publishing place stripped')
+                if updated:
+                    total += 1
+        else:
+            print("publishing place data is already clean!")
+            print("nothing to do...")
+        print("updated", total, "items!")
+        return total
