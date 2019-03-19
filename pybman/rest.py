@@ -142,6 +142,7 @@ class ItemRestController(LoginRestController):
             return utils.put_request(url, headers, data)
         else:
             print("you need to be authorized to update items!")
+            return None
 
     def release_item(self, itemID, data, comment):
         if self.auth:
@@ -154,6 +155,7 @@ class ItemRestController(LoginRestController):
             return utils.put_request(url, headers, params)
         else:
             print("you need to be authorized to release items!")
+            return None
 
     def revise_item(self):
         pass
