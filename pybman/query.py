@@ -49,6 +49,7 @@ class OrgUnitQuery:
         term['metadata.creators.organization.identifierPath']['value'] = ou_id
         return data
 
+
 class PersQuery:
 
     def __init__(self):

@@ -53,7 +53,7 @@ class LoginRestController(RestController):
         self.online = False
 
         self.accept = {'accept': 'application/json'}
-        self.header = {'accept': 'application/json','Content-Type': 'application/json'}
+        self.header = {'accept': 'application/json', 'Content-Type': 'application/json'}
         self.auth_header = deepcopy(self.accept)
 
         if auth:
@@ -124,7 +124,7 @@ class ItemRestController(LoginRestController):
 
     def search_items(self, query=None):
         self.records = []
-        url = self.rest_items_search # + params
+        url = self.rest_items_search  # + params
         params = self.params
         headers = self.header
         if query:
@@ -132,37 +132,37 @@ class ItemRestController(LoginRestController):
         else:
             data = self.query
         response = utils.post_request(url, params, headers, data)
-        scrollId = response['scrollId']
+        scroll_id = response['scrollId']
         self.records += response['records']
-        self.scroll_items(scrollId, 1)
+        self.scroll_items(scroll_id, 1)
 
     # func to repeatedly request items
-    def scroll_items(self, scrollId, counter):
+    def scroll_items(self, scroll_id, counter):
         print("scrolling for the "+str(counter)+". time...")
         headers = self.header
         params = self.format
-        params['scrollId'] = scrollId
+        params['scrollId'] = scroll_id
         url = self.rest_items_search_scroll
         response = utils.get_request(url, params, headers)
         if 'records' in response:
             self.records += response['records']
             self.scroll_items(response['scrollId'], counter+1)
 
-    def update_item(self, itemID, data):
+    def update_item(self, item_id, data):
         if self.auth:
             headers = self.content
             headers['Authorization'] = self.token
-            url = self.rest_items + itemID
+            url = self.rest_items + item_id
             return utils.put_request(url, headers, data)
         else:
             print("you need to be authorized to update items!")
             return None
 
-    def release_item(self, itemID, data, comment):
+    def release_item(self, item_id, data, comment):
         if self.auth:
             headers = self.content
             headers['Authorization'] = self.token
-            url = self.rest_items_release.replace('$', itemID)
+            url = self.rest_items_release.replace('$', item_id)
             params = {'comment': comment, 'lastModificationDate': data['lastModificationDate']}
             passphrase = self.secret['user-pass'].split(":")[1]
             params['password'] = passphrase
@@ -223,6 +223,7 @@ class ContextRestController(RestController):
 
     def get_all(self):
         return utils.get_request(self.rest_contexts)
+
 
 class FeedRestController(RestController):
 

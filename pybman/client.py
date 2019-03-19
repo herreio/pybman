@@ -28,13 +28,13 @@ class Client:
         # inspector class
         self.inspector = None
 
-    def get_data(self,ctx_id=None,ou_id=None,pers_id=None,released=False):
+    def get_data(self, ctx_id=None, ou_id=None, pers_id=None, released=False):
         if ctx_id:
             query = self.ctx_query.get_item_query(ctx_id)
             self.item_rest.search_items(query=query)
             return data.DataSet(ctx_id, raw=self.item_rest.records)
         elif ou_id:
-            query = self.ou_query.get_item_query()
+            query = self.ou_query.get_item_query(ou_id)
             self.item_rest.search_items(query=query)
             return data.DataSet(ou_id, raw=self.item_rest.records)
         elif pers_id:

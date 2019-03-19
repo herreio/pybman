@@ -5,6 +5,7 @@ from datetime import date
 from pybman import data
 from pybman import utils
 
+
 class LocalData:
 
     def __init__(self, base_dir='./data/', create=False):
@@ -41,17 +42,17 @@ class LocalData:
                 os.mkdir(self.ctx_dir)
                 os.mkdir(self.pers_dir)
 
-        if not os.path.exists(self.ou_dir) and ou_exists:
+        if not os.path.exists(self.ou_dir) and self.ou_exists:
             self.ou_exists = False
             if create:
                 os.mkdir(self.ou_dir)
 
-        if not os.path.exists(self.ctx_dir) and ctx_exists:
+        if not os.path.exists(self.ctx_dir) and self.ctx_exists:
             self.ctx_exists = False
             if create:
                 os.mkdir(self.ctx_dir)
 
-        if not os.path.exists(self.pers_dir) and pers_exists:
+        if not os.path.exists(self.pers_dir) and self.pers_exists:
             self.pers_exists = False
             if create:
                 os.mkdir(self.pers_dir)

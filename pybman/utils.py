@@ -4,6 +4,7 @@ import pkg_resources
 
 from urllib.parse import urlencode
 
+
 # write given list (results) to file at path
 def write_list(path, results):
     print("write list to file", path)
@@ -15,6 +16,7 @@ def write_list(path, results):
             for res in results:
                 f.write('"' + '"\n"'.join(res) + '"\n')
 
+
 # read plain text file
 def read_plain_clean(path):
     print("read plain text file", path)
@@ -24,13 +26,15 @@ def read_plain_clean(path):
             lines.append(line.strip('\n'))
     return lines
 
+
 # read json file at path
 def read_json(path):
     print("read file", path)
     result = {}
-    with open(path,'r',encoding='utf-8') as f:
+    with open(path, 'r', encoding='utf-8') as f:
         result = json.load(f)
     return result
+
 
 # write given data to json file at path
 def write_json(path, data):
@@ -39,6 +43,7 @@ def write_json(path, data):
         s = json.dumps(data, indent=2)
         f.write(s)
     return path
+
 
 # send get request to fetch data
 def get_request(url, params=None, headers=None, json_response=True):
@@ -56,8 +61,9 @@ def get_request(url, params=None, headers=None, json_response=True):
             return response
     else:
         print("something went wrong while requesting data!")
-        print("got status code", response.status_code,"!")
+        print("got status code", response.status_code, "!")
         return {}
+
 
 # send a post request with data
 def post_request(url, params=None, headers=None, data=None, json_res=True):
@@ -76,19 +82,21 @@ def post_request(url, params=None, headers=None, data=None, json_res=True):
             return response
     else:
         print("something went wrong while requesting data!")
-        print("got status code", response.status_code,"!")
+        print("got status code", response.status_code, "!")
         return {}
+
 
 # send a put request with data
 def put_request(url, header, data):
     payload = json.dumps(data)
-    response = requests.put(url,headers=header,data=payload)
+    response = requests.put(url, headers=header,data=payload)
     if response.status_code == 200:
         return response.json()
     else:
         print("something went wrong while requesting data!")
-        print("got status code", response.status_code,"!")
+        print("got status code", response.status_code, "!")
         return {}
+
 
 # resolve path of package files
 def resolve_path(path):
