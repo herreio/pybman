@@ -11,7 +11,7 @@ class Client:
     def __init__(self, secret='./conf/secret.json'):
 
         # load rest api controllers
-        self.item_rest = rest.ItemRestController()
+        self.item_rest = rest.ItemRestController(secret)
         self.ou_rest = rest.OrgUnitRestController()
         self.ctx_rest = rest.ContextRestController()
         self.feed_rest = rest.FeedRestController()
@@ -58,15 +58,23 @@ class Client:
             print("something went wrong while updating item with id", idx)
             return None
 
-    # def clean_init(self, data):
-    #    self.inspector = inspector.Inspector(data.records)
+    def clean_init(self, data):
+        self.inspector = inspector.Inspector(data.records)
 
     def clean_titles(self, data=None):
+
         print("start cleaning title data!")
+
         # create inspector instance if necessary
-        self.inspector = inspector.Inspector(data.records)
-        ### inspect publication titles ###
-        print("inspecting publishing titles:")
+        if not self.inspector:
+            if data:
+                self.clean_init(data)
+            else:
+                print("failed to initialize inspector!")
+                print("please pass data to be cleaned.")
+                return 0
+
+        # cleaning of publication titles
         clean_data = self.inspector.check_publication_titles(clean=True)
         total = 0
         if clean_data:
@@ -78,9 +86,10 @@ class Client:
             print("updated", counter, "publication titles!")
             total += counter
         else:
-            print("publication title data is already clean! nothing to do...")
-        ### inspect source titles ###
-        print("inspecting source titles:")
+            print("publication title data is already clean!")
+            print("nothing to do...")
+
+        # cleaning of source title data
         clean_data = self.inspector.check_source_titles(clean=True)
         if clean_data:
             counter = 0
@@ -91,14 +100,26 @@ class Client:
             print("updated", counter, "source titles!")
             total += counter
         else:
-            print("source title data is already clean! nothing to do...")
+            print("source title data is already clean!")
+            print("nothing to do...")
+
         print("updated", total, "items.")
         return total
 
     def clean_publishers(self, data=None):
+
         print("start cleaning publisher data!")
+
         # create inspector instance if necessary
-        self.inspector = inspector.Inspector(data.records)
+        if not self.inspector:
+            if data:
+                self.clean_init(data)
+            else:
+                print("failed to initialize inspector!")
+                print("please pass data to be cleaned.")
+                return 0
+
+        # cleaning of publisher data
         clean_data = self.inspector.check_publishers(clean=True)
         total = 0
         if clean_data:
@@ -107,15 +128,26 @@ class Client:
                 if updated:
                     total += 1
         else:
-            print("publishing place data is already clean!")
+            print("publisher data is already clean!")
             print("nothing to do...")
+
         print("updated", total, "items!")
         return total
 
     def clean_publishing_places(self, data=None):
+
         print("start cleaning publishing place data!")
+
         # create inspector instance if necessary
-        self.inspector = inspector.Inspector(data.records)
+        if not self.inspector:
+            if data:
+                self.clean_init(data)
+            else:
+                print("failed to initialize inspector!")
+                print("please pass data to be cleaned.")
+                return 0
+
+        # start cleaning of publishing place data
         clean_data = self.inspector.check_publishing_places(clean=True)
         total = 0
         if clean_data:
@@ -126,5 +158,6 @@ class Client:
         else:
             print("publishing place data is already clean!")
             print("nothing to do...")
+
         print("updated", total, "items!")
         return total
