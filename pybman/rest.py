@@ -49,6 +49,9 @@ class LoginRestController(RestController):
         self.grants = None
         self.roles = None
 
+        # user status
+        self.online = False
+
         self.accept = {'accept': 'application/json'}
         self.header = {'accept': 'application/json','Content-Type': 'application/json'}
         self.auth_header = deepcopy(self.accept)
@@ -69,33 +72,44 @@ class LoginRestController(RestController):
             response = utils.post_request(self.rest_login, headers=self.header, data=data, json_res=False)
             self.token = response.headers['Token']
             self.auth_header['Authorization'] = self.token
+            self.online = True
         else:
             print("login failed! please provide credentials!")
 
     def get_user(self):
-        response = utils.get_request(self.rest_login_who, headers=self.auth_header)
-        grantlist = response['grantList']
-        grants = {}
-        for grant in grantlist:
-            if grant['role'] in grants:
-                grants[grant['role']].append(grant['objectRef'])
-            else:
-                grants[grant['role']] = [grant['objectRef']]
-        self.grants = grants
-        self.roles = list(self.grants.keys())
-        self.roles.sort()
+        if self.online:
+            response = utils.get_request(self.rest_login_who, headers=self.auth_header)
+            grantlist = response['grantList']
+            grants = {}
+            for grant in grantlist:
+                if grant['role'] in grants:
+                    grants[grant['role']].append(grant['objectRef'])
+                else:
+                    grants[grant['role']] = [grant['objectRef']]
+            self.grants = grants
+            self.roles = list(self.grants.keys())
+            self.roles.sort()
+        else:
+            print("you need to be logged in to get user info!")
 
     # func to logout via REST
     def logout(self):
-        response = utils.get_request(self.rest_logout, headers=self.auth_header, json_response=False)
-        print(response.text)
+        if self.online:
+            response = utils.get_request(self.rest_logout, headers=self.auth_header, json_response=False)
+            print(response.text)
+            self.online = False
+        else:
+            print("you need to be logged in to log out!")
 
 
 class ItemRestController(LoginRestController):
 
-    def __init__(self):
+    def __init__(self, secret):
 
-        super().__init__()
+        if secret:
+            super().__init__(cred=secret)
+        else:
+            super().__init__(auth=False)
 
         # items endpoint
         self.rest_items = self.rest + 'items/'
