@@ -56,6 +56,7 @@ def get_request(url, params=None, headers=None, json_response=True):
             return response
     else:
         print("something went wrong while requesting data!")
+        print("got status code", response.status_code,"!")
         return {}
 
 # send a post request with data
@@ -86,6 +87,8 @@ def put_request(url, header, data):
         return response.json()
     else:
         print("something went wrong while requesting data!")
+        print("got status code", response.status_code,"!")
+        return {}
 
 # resolve path of package files
 def resolve_path(path):
