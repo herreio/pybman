@@ -1,5 +1,5 @@
+from pybman import utils
 # from pybman import rest
-
 
 class Inspector:
 
@@ -93,12 +93,17 @@ class Inspector:
         pass
 
     def check_publication_link(self):
-        updates = {}
+        # was ist wenn zwei uri's auftauchen? eine geht, eine nicht, beide gehen?
+        updates = {"present":{},"absent":{}}
         for record in self.records:
             if 'identifiers' in record['data']['metadata']:
                 identifiers = record['data']['metadata']['identifiers']
                 for idx in identifiers:
-                    if idx['type'] == URI:
+                    if idx['type'] == 'URI':
                         item_id = record['data']['objectId']
-                        updates[item_id] = record
+                        url = idx['id']
+                        if utils.url_exists(url):
+                            updates['present'][item_id] = record
+                        else:
+                            updates['absent'][item_id] = record
         return updates
