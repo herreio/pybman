@@ -1,5 +1,6 @@
 import json
 import requests
+# import urllib3
 import pkg_resources
 
 from urllib.parse import urlencode
@@ -61,7 +62,7 @@ def get_request(url, params=None, headers=None, json_response=True):
             return response
     else:
         print("something went wrong while requesting data!")
-        print("got status code", response.status_code, "!")
+        print("got status code", response.status_code, " for url:\n", url)
         return {}
 
 
@@ -96,6 +97,20 @@ def put_request(url, header, data):
         print("something went wrong while requesting data!")
         print("got status code", response.status_code, "!")
         return {}
+
+
+def url_exists(url):
+    try:
+        response = get_request(url, json_response=False)
+    except Exception as e:
+        print(str(e))
+        return False
+        # except requests.exceptions.RequestException as err:  # urllib3.exceptions.TimeoutError as err:
+        # print(err.message)
+    if not response:
+        return False
+    else:
+        return True
 
 
 # resolve path of package files
