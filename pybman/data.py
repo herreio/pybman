@@ -279,6 +279,15 @@ class DataSet:
                         records[record['data']['objectId']] = source
         return records
 
+    def get_items_with_external_url(self):
+        records = {}
+        for record in self.records:
+            if 'files' in record['data']:
+                for f in record['data']['files']:
+                    if f['storage'] == 'EXTERNAL_URL':
+                        records[record['data']['objectId']] = record
+        return records
+
     def save_titles(self):
         # titles = self.get_titles()
         pass
