@@ -92,18 +92,42 @@ class Inspector:
         # dateSubmitted
         pass
 
-    def check_publication_link(self):
+    def check_publication_uri(self):
         # was ist wenn zwei uri's auftauchen? eine geht, eine nicht, beide gehen?
-        updates = {"present":{},"absent":{}}
+        updates = {}
         for record in self.records:
             if 'identifiers' in record['data']['metadata']:
                 identifiers = record['data']['metadata']['identifiers']
                 for idx in identifiers:
                     if idx['type'] == 'URI':
-                        item_id = record['data']['objectId']
                         url = idx['id']
-                        if utils.url_exists(url):
-                            updates['present'][item_id] = record
-                        else:
-                            updates['absent'][item_id] = record
+                        if not utils.url_exists(url):
+                            item_id = record['data']['objectId']
+                            updates[item_id] = url
+        return updates
+
+    def check_publication_url(self):
+        updates = {}
+        for record in self.records:
+            if 'files' in record['data']:
+                for f in record['data']['files']:
+                    if f['storage'] == 'EXTERNAL_URL':
+                        url = f['content']
+                        # check = utils.check_url(url)
+                        # if url != check:
+                        #    item_id = record['data']['objectId']
+                        #    updates[item_id] = check
+                        if not utils.url_exists(url):
+                            item_id = record['data']['objectId']
+                            updates[item_id] = url
+                        # if 'name' in f:
+                        #    url = f['name']
+                        #    if not utils.url_exists(url):
+                        #        item_id = record['data']['objectId']
+                        #        updates[item_id] = url
+                        # else:
+                        #    print("")
+                        #    print("no name given for", record['data']['objectId'])
+                        #    print(record['data']['files'])
+                        #    print("")
         return updates
