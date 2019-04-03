@@ -279,12 +279,24 @@ class DataSet:
                         records[record['data']['objectId']] = source
         return records
 
+    # get items from collection with external url
     def get_items_with_external_url(self):
         records = {}
         for record in self.records:
             if 'files' in record['data']:
                 for f in record['data']['files']:
                     if f['storage'] == 'EXTERNAL_URL':
+                        records[record['data']['objectId']] = record
+        return records
+
+    # get items from collection with uri as identifier
+    def get_items_with_identifier_uri(self):
+        records = {}
+        for record in self.records:
+            if 'identifiers' in record['data']['metadata']:
+                identifiers = record['data']['metadata']['identifiers']
+                for idx in identifiers:
+                    if idx['type'] == 'URI':
                         records[record['data']['objectId']] = record
         return records
 
