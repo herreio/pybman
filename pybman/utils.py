@@ -61,8 +61,8 @@ def get_request(url, params=None, headers=None, json_response=True):
         else:
             return response
     else:
-        print("something went wrong while requesting data!")
-        print("got status code", response.status_code, " for url:\n", url)
+        # print("something went wrong while requesting data!")
+        print("got status code", response.status_code, "for url:\n", url)
         return {}
 
 
@@ -82,8 +82,8 @@ def post_request(url, params=None, headers=None, data=None, json_res=True):
         else:
             return response
     else:
-        print("something went wrong while requesting data!")
-        print("got status code", response.status_code, "!")
+        # print("something went wrong while requesting data!")
+        print("got status code", response.status_code, "for url:\n", url)
         return {}
 
 
@@ -95,23 +95,64 @@ def put_request(url, header, data):
         return response.json()
     else:
         print("something went wrong while requesting data!")
-        print("got status code", response.status_code, "!")
+        print("got status code", response.status_code, "for url:\n", url)
         return {}
 
+user_agent = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:64.0) Gecko/20100101 Firefox/64.0'}
+
+def check_url(url):
+    try:
+        response = requests.head(url)
+    except Exception as e:
+        print(str(e))
+        print("... tried to access:", url)
+        return ''
+    if response.status_code == 200:
+        # print("HTTP 200", url)
+        return url
+    elif response.status_code == 303:
+        # print("HTTP 302", url)
+        return response.headers['Location']
+    elif response.status_code == 302:
+        # print("HTTP 302", url)
+        return response.headers['Location']
+    elif response.status_code == 301:
+        # print("HTTP 301", url)
+        return response.headers['Location'] # check if 301 has new location
+    elif response.status_code == 403:
+        print("HTTP", response.status_code, url)
+        print("could not check")
+        return url
+    elif response.status_code == 404:
+        return ''
+    else:
+        print("HTTP", response.status_code, url)
+        print("... unhandled status code!")
+        return url
 
 def url_exists(url):
     try:
-        response = get_request(url, json_response=False)
+        response = get_request(url, json_response=False, headers=user_agent)
     except Exception as e:
         print(str(e))
+        print("while accessing", url)
         return False
-        # except requests.exceptions.RequestException as err:  # urllib3.exceptions.TimeoutError as err:
-        # print(err.message)
     if not response:
         return False
     else:
         return True
 
+def url_exists2(url):
+    try:
+        response = requests.head(url)
+    except Exception as e:
+        print(str(e))
+        print("... tried to access:", url)
+        return ''
+    if response.status_code == 404:
+        return False
+    else:
+        return True
 
 # resolve path of package files
 def resolve_path(path):
