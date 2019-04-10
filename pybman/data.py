@@ -78,6 +78,7 @@ class DataSet:
                             persons[cone_id] = name
         return persons
 
+
 #    def init_pers_data(self):
 #        pers_data = []
 #        for p in self.persons:
@@ -86,28 +87,67 @@ class DataSet:
 #            pers_data.append(DataSet(p_idx,data=p_data))
 #        return pers_data
 
+    def get_organizations(self):
+        organizations = {}
+        for record in self.records:
+            if 'creators' in record['data']['metadata']:
+                creators_list = record['data']['metadata']['creators']
+                for creator in creators_list:
+                    if creator['type'] == 'PERSON':
+                        person = creator['person']
+                        if 'organizations' in person:
+                            for organization in person['organizations']:
+                                if organization['name'] in organizations:
+                                    organizations[organization['name']].append(record['data']['objectId'])
+                                else:
+                                    organizations[organization['name']] = [record['data']['objectId']]
+                        else:
+                            print("no organization found for", person)
+                    elif creator['type'] == 'ORGANIZATION':
+                        organization = creator['organization']
+                        if organization['name'] in organizations:
+                            organizations[organization['name']].append(record['data']['objectId'])
+                        else:
+                            organizations[organization['name']] = [record['data']['objectId']]
+                    else:
+                        print("unknown creator type", creator['type'])
+            else:
+                print(record['data']['objectId'], "has no creator!")
+        return organizations
+
     # get titles of items
     def get_titles(self):
-        titles = []
+        titles = {}
         for record in self.records:
-            titles.append(record['data']['metadata']['title'])
+            title = record['data']['metadata']['title']
+            if title in titles:
+                titles[title].append(record['data']['objectId'])
+            else:
+                titles[title] = [record['data']['objectId']]
+            # titles.append(record['data']['metadata']['title'])
         return titles
 
     # get titles from source of items
     def get_titles_from_source(self):
-        source_titles = []
+        source_titles = {}
         for record in self.records:
             if 'sources' in record['data']['metadata']:
                 for source in record['data']['metadata']['sources']:
-                    source_titles.append(source['title'])
+                    if source['title'] in source_titles:
+                        source_titles[source['title']].append(record['data']['objectId'])
+                    else:
+                        source_titles[source['title']] = [record['data']['objectId']]
+                    # source_titles.append(source['title'])
         return source_titles
 
     # get list of genres from collection
     def get_genres(self):
-        genres = []
+        genres = {}
         for record in self.records:
-            if record['data']['metadata']['genre'] not in genres:
-                genres.append(record['data']['metadata']['genre'])
+            if record['data']['metadata']['genre'] in genres:
+                genres[record['data']['metadata']['genre']].append(record['data']['objectId'])
+            else:
+                genres[record['data']['metadata']['genre']] = [record['data']['objectId']]
         return genres
 
     # get list of genres from collection
@@ -165,7 +205,24 @@ class DataSet:
         return publishers
 
     def get_journals(self):
-        pass
+        journals = {}
+        items = self.get_items_with_source_genre("JOURNAL")
+        for k in items:
+            if items[k]['title'] in journals:
+                journals[items[k]['title']].append(k)
+            else:
+                journals[items[k]['title']] = [k]
+        return journals
+
+    def get_series(self):
+        series = {}
+        items = self.get_items_with_source_genre("SERIES")
+        for k in items:
+            if items[k]['title'] in series:
+                series[items[k]['title']].append(k)
+            else:
+                series[items[k]['title']] = [k]
+        return series
 
     def get_years(self):
         years = {}
@@ -215,8 +272,10 @@ class DataSet:
                         languages[lang[0]].append(record)
                     else:
                         languages[lang[0]] = [record]
-                else:
+                elif len(lang) > 1:
                     print(record['data']['objectId'], "has more than one language!")
+                else:
+                    print(record['data']['objectId'], "has no language!")
         return languages
 
     # get identifiers from sources of items
@@ -234,6 +293,20 @@ class DataSet:
                                 source_idx[identifier_type] = [record['data']['objectId']]
         return source_idx
 
+    def get_sources_titles(self, genre=None):
+        source_titles = {}
+        for record in self.records:
+            if 'sources' in record['data']['metadata']:
+                # if len(record['data']['metadata']['sources']) > 1:
+                #    for source in record['data']['metadata']['sources']:
+                #        if genre:
+                #            source_titles[record['data']['objectId']] = source['title'] if source['genre'] == genre
+                #        else:
+                #            source_titles[record['data']['objectId']] = source['title']
+                # else:
+                #    source_titles[record['data']['objectId']]
+                pass
+
     # get items with state 'submitted'
     def get_items_submitted(self):
         submitted = {}
@@ -242,6 +315,15 @@ class DataSet:
                 if record['data']['versionState'] == 'SUBMITTED':
                     submitted[record['persistenceId']] = record['data']
         return submitted
+
+    # get items with state 'submitted'
+    def get_items_released(self):
+        released = []
+        for record in self.records:
+            if record['data']['publicState'] == 'RELEASED':
+                if record['data']['versionState'] == 'RELEASED':
+                    released.append(record)
+        return released
 
     # get item from collection by given id
     def get_item(self, item_id):
@@ -257,7 +339,7 @@ class DataSet:
         records = {}
         for record in self.records:
             if genre == record['data']['metadata']['genre']:
-                records[record['data']['objectId']] = record['data']['metadata']
+                records[record['data']['objectId']] = record
         return records
 
     def get_items_with_publication_year(self, year):
