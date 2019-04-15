@@ -17,6 +17,11 @@ def write_list(path, results):
             for res in results:
                 f.write('"' + '"\n"'.join(res) + '"\n')
 
+def write_csv(path, results):
+    print("write csv to file", path)
+    with open(path, "w+", encoding="utf8") as f:
+        for row in results:
+            f.write('"'+ '","'.join(row) + '"\n')
 
 # read plain text file
 def read_plain_clean(path):
