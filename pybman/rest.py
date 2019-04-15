@@ -194,7 +194,9 @@ class OrgUnitRestController(RestController):
         self.rest_org_units_toplevel = self.rest_org_units + 'toplevel'
 
     def get_all(self):
-        return utils.get_request(self.rest_org_units)
+        res = utils.get_request(self.rest_org_units)
+        size = {"size": res['numberOfRecords']}
+        return utils.get_request(self.rest_org_units + "?", size)
 
     def get(self, ou_id='ou_907574'):
         url = self.rest_org_units + ou_id
@@ -217,12 +219,16 @@ class ContextRestController(RestController):
         # context endpoint
         self.rest_contexts = self.rest + 'contexts/'
 
+        self.size = {"size":"500"}
+
     def get(self, ctx_id='ctx_924547'):
         url = self.rest_contexts + ctx_id
         return utils.get_request(url)
 
     def get_all(self):
-        return utils.get_request(self.rest_contexts)
+        res = utils.get_request(self.rest_contexts)
+        size = {"size":res['numberOfRecords']}
+        return utils.get_request(self.rest_contexts + "?", self.size)
 
 
 class FeedRestController(RestController):
