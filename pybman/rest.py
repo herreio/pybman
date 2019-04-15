@@ -219,8 +219,6 @@ class ContextRestController(RestController):
         # context endpoint
         self.rest_contexts = self.rest + 'contexts/'
 
-        self.size = {"size":"500"}
-
     def get(self, ctx_id='ctx_924547'):
         url = self.rest_contexts + ctx_id
         return utils.get_request(url)
