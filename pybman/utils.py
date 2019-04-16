@@ -17,11 +17,13 @@ def write_list(path, results):
             for res in results:
                 f.write('"' + '"\n"'.join(res) + '"\n')
 
+
 def write_csv(path, results):
     print("write csv to file", path)
     with open(path, "w+", encoding="utf8") as f:
         for row in results:
-            f.write('"'+ '","'.join(row) + '"\n')
+            f.write('"' + '","'.join(row) + '"\n')
+
 
 # read plain text file
 def read_plain_clean(path):
@@ -95,7 +97,7 @@ def post_request(url, params=None, headers=None, data=None, json_res=True):
 # send a put request with data
 def put_request(url, header, data):
     payload = json.dumps(data)
-    response = requests.put(url, headers=header,data=payload)
+    response = requests.put(url, headers=header, data=payload)
     if response.status_code == 200:
         return response.json()
     else:
@@ -103,7 +105,9 @@ def put_request(url, header, data):
         print("got status code", response.status_code, "for url:\n", url)
         return {}
 
-user_agent = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:64.0) Gecko/20100101 Firefox/64.0'}
+
+user_agent = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:64.0) Gecko/20100101 Firefox/64.0'}
+
 
 def check_url(url):
     try:
@@ -123,7 +127,7 @@ def check_url(url):
         return response.headers['Location']
     elif response.status_code == 301:
         # print("HTTP 301", url)
-        return response.headers['Location'] # check if 301 has new location
+        return response.headers['Location']  # check if 301 has new location
     elif response.status_code == 403:
         print("HTTP", response.status_code, url)
         print("could not check")
@@ -134,6 +138,7 @@ def check_url(url):
         print("HTTP", response.status_code, url)
         print("... unhandled status code!")
         return url
+
 
 def url_exists(url):
     try:
@@ -147,6 +152,7 @@ def url_exists(url):
     else:
         return True
 
+
 def url_exists2(url):
     try:
         response = requests.head(url)
@@ -158,6 +164,7 @@ def url_exists2(url):
         return False
     else:
         return True
+
 
 # resolve path of package files
 def resolve_path(path):

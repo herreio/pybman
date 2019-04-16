@@ -1,6 +1,7 @@
 from pybman import utils
 # from pybman import rest
 
+
 class Inspector:
 
     def __init__(self, records):

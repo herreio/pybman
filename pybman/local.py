@@ -87,11 +87,11 @@ class LocalData:
             return {}
 
     # write local data file
-    def store_data(self, idx, data):
+    def store_data(self, idx, dict_data):
         print("store local data of", idx)
         self.change_data_path(idx)
         path = self.generate_data_path(idx)
-        utils.write_json(path, data)
+        utils.write_json(path, dict_data)
 
     # get data path for given id
     def generate_data_path(self, data_id):

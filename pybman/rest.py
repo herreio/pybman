@@ -225,8 +225,8 @@ class ContextRestController(RestController):
 
     def get_all(self):
         res = utils.get_request(self.rest_contexts)
-        size = {"size":res['numberOfRecords']}
-        return utils.get_request(self.rest_contexts + "?", self.size)
+        size = {"size": res['numberOfRecords']}
+        return utils.get_request(self.rest_contexts + "?", size)
 
 
 class FeedRestController(RestController):
