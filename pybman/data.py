@@ -22,7 +22,7 @@ class DataSet:
 
         else:
             # print("please pass (raw) data for initialization!")
-            self.collection = None
+            self.collection = {}
             self.num = 0
             self.records = []
             self.persons = {}
