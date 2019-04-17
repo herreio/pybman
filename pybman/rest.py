@@ -132,13 +132,15 @@ class ItemRestController(LoginRestController):
         else:
             data = self.query
         response = utils.post_request(url, params, headers, data)
-        if 'scroll_id' in response:
+        if 'scrollId' in response:
             scroll_id = response['scrollId']
             if 'records' in response:
                 self.records += response['records']
                 self.scroll_items(scroll_id, 1)
             else:
                 return response
+        else:
+            return response
 
     # func to repeatedly request items
     def scroll_items(self, scroll_id, counter):
