@@ -21,7 +21,7 @@ class DataSet:
             self.persons = self.get_cone_persons()
 
         else:
-            print("please pass (raw) data for initialization!")
+            # print("please pass (raw) data for initialization!")
             self.collection = None
             self.num = 0
             self.records = []
