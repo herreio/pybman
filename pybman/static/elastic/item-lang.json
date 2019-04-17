@@ -1,0 +1,12 @@
+{
+    "query": {
+        "term" : {
+          "metadata.languages" : {
+            "value" : "eng",
+            "boost" : 1.0
+          }
+        }
+    },
+    "size": "500",
+    "from": 0
+}

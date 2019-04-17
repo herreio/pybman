@@ -1,6 +1,15 @@
 from copy import deepcopy
 from pybman import utils
 
+class Query:
+
+    def __init__(self):
+        pass
+
+class ConeQuery:
+
+    def __init__(self):
+        pass
 
 class ContextQuery:
 
@@ -71,4 +80,23 @@ class PersQuery:
         data = deepcopy(self.item_released_query)
         term = data['query']['bool']['must'][2]['term']
         term['metadata.creators.person.identifier.id']['value'] = self.cone_id_format + cone_id
+        return data
+
+class LangQuery:
+
+    def __init__(self):
+        self.item_query_fp = utils.resolve_path('static/elastic/item-lang.json')
+        self.item_released_query_fp = utils.resolve_path('static/elastic/item-lang-released.json')
+
+        self.item_query = utils.read_json(self.item_query_fp)
+        self.item_released_query = utils.read_json(self.item_released_query_fp)
+
+    def get_item_query(self, lang_id):
+        data = deepcopy(self.item_query)
+        data['query']['term']['metadata.languages']['value'] = lang_id
+        return data
+
+    def get_released_item_query(self, lang_id):
+        data = deepcopy(self.item_released_query)
+        data['query']['bool']['must'][2]['term']['metadata.languages']['value'] = lang_id
         return data

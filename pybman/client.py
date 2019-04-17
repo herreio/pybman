@@ -24,11 +24,12 @@ class Client:
         self.pers_query = query.PersQuery()
         self.ou_query = query.OrgUnitQuery()
         self.ctx_query = query.ContextQuery()
+        self.lang_query = query.LangQuery()
 
         # inspector class
         self.inspector = None
 
-    def get_data(self, ctx_id=None, ou_id=None, pers_id=None):
+    def get_data(self, ctx_id=None, ou_id=None, pers_id=None, lang_id=None):
         if ctx_id:
             ctx_query = self.ctx_query.get_item_query(ctx_id)
             self.item_rest.search_items(query=ctx_query)
@@ -41,6 +42,10 @@ class Client:
             pers_query = self.pers_query.get_item_query(pers_id)
             self.item_rest.search_items(query=pers_query)
             return data.DataSet(pers_id, raw=self.item_rest.records)
+        elif lang_id:
+            lang_query = self.lang_query.get_item_query(lang_id)
+            self.item_rest.search_items(query=lang_query)
+            return data.DataSet(lang_id, raw=self.item_rest.records)
         else:
             print("please specify data to retrieve!")
 
