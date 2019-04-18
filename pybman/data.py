@@ -53,7 +53,7 @@ class DataSet:
                                 creators[idx] = [record]
                         else:
                             print("no identifier found for", record['data']['objectId'])
-                    else:
+                    else:  # eine person und eine organisation: fall tritt ein, obwohl person da
                         print("no person found for", record['data']['objectId'])
         return creators
 
@@ -274,6 +274,11 @@ class DataSet:
                         languages[lang[0]] = [record]
                 elif len(lang) > 1:
                     print(record['data']['objectId'], "has more than one language!")
+                    for l in lang:
+                        if l in languages:
+                            languages[l].append(record)
+                        else:
+                            languages[l] = [record]
                 else:
                     print(record['data']['objectId'], "has no language!")
         return languages
