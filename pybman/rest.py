@@ -314,3 +314,25 @@ class JournalConeController(ConeController):
 
     def search_entity(self, cone_id):
         pass
+
+class LanguageConeController(ConeController):
+
+    def __init__(self):
+
+        super().__init__()
+
+        # iso 639-3 endpoint
+        self.cone_languages = self.cone + 'iso639-3/'
+        self.cone_languages_all = self.cone_languages + 'all?'
+        self.cone_language_query = self.cone_languages + 'query?'
+        self.cone_languages_resource = self.cone_languages + 'resource/'
+
+    def get_entities(self):
+        return utils.get_request(self.cone_languages_all, self.format)
+
+    def get_entity(self, language_id='deu'):
+        url = self.cone_languages_resource + language_id + '?'
+        return utils.get_request(url, self.format)
+
+    def search_entity(self, cone_id):
+        pass
