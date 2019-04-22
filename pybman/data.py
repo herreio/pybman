@@ -273,7 +273,7 @@ class DataSet:
                     else:
                         languages[lang[0]] = [record]
                 elif len(lang) > 1:
-                    print(record['data']['objectId'], "has more than one language!")
+                    # print(record['data']['objectId'], "has more than one language!")
                     for l in lang:
                         if l in languages:
                             languages[l].append(record)
