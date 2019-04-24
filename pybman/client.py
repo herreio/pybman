@@ -29,7 +29,7 @@ class Client:
         # inspector class
         self.inspector = None
 
-    def get_data(self, ctx_id=None, ou_id=None, pers_id=None, lang_id=None):
+    def get_data(self, ctx_id=None, ou_id=None, pers_id=None, lang_id=None, query=None):
         if ctx_id:
             ctx_query = self.ctx_query.get_item_query(ctx_id)
             self.item_rest.search_items(query=ctx_query)
@@ -46,6 +46,9 @@ class Client:
             lang_query = self.lang_query.get_item_query(lang_id)
             self.item_rest.search_items(query=lang_query)
             return data.DataSet(lang_id, raw=self.item_rest.records)
+        elif query:
+            self.item_rest.search_items(query=query)
+            return data.DataSet("query_data", raw=self.item_rest.records)
         else:
             print("please specify data to retrieve!")
 
@@ -92,6 +95,31 @@ class Client:
             print("nothing to do...")
 
         return total
+
+    def change_genre(self, new_genre, old_genre, data_set=None):
+
+        print("start changing genre of items")
+
+        # create new inspector instance
+        if data_set:
+            self.clean_init(data_set)
+        else:
+            print("failed to initialize inspector!")
+            print("please pass data to be cleaned.")
+            return 0
+
+        clean_data = self.inspector.change_genre(new_genre, old_genre)
+        total = 0
+        if clean_data:
+            for k in clean_data:
+                updated = self.update_data(k, clean_data[k]['data'], 'auto-update: change genre of item from '+ old_genre +" to " + new_genre)
+                if updated:
+                    total += 1
+            print("updated genre of", total, "items!")
+        else:
+            print("genre is correctly chosen already!")
+            print("nothing to do...")
+            return 0
 
     def clean_source_titles(self, data_set=None):
 
