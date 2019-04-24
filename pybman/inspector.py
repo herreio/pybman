@@ -132,3 +132,13 @@ class Inspector:
                         #    print(record['data']['files'])
                         #    print("")
         return updates
+
+    def change_genre(self, new_genre, old_genre):
+        updates = {}
+        for record in self.records:
+            if old_genre == record['data']['metadata']['genre']:
+                record['data']['metadata']['genre'] = new_genre
+                updates[record['data']['objectId']] = record
+            else:
+                print("skipping item", record['data']['objectId'])
+        return updates
