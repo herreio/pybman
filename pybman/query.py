@@ -1,15 +1,18 @@
 from copy import deepcopy
 from pybman import utils
 
+
 class Query:
 
     def __init__(self):
         pass
 
+
 class ConeQuery:
 
     def __init__(self):
         pass
+
 
 class ContextQuery:
 
@@ -81,6 +84,7 @@ class PersQuery:
         term = data['query']['bool']['must'][2]['term']
         term['metadata.creators.person.identifier.id']['value'] = self.cone_id_format + cone_id
         return data
+
 
 class LangQuery:
 

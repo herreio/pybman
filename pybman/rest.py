@@ -315,6 +315,7 @@ class JournalConeController(ConeController):
     def search_entity(self, cone_id):
         pass
 
+
 class LanguageConeController(ConeController):
 
     def __init__(self):
