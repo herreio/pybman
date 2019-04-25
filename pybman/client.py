@@ -19,6 +19,7 @@ class Client:
         # load cone controllers
         self.journals_cone = rest.JournalConeController()
         self.persons_cone = rest.PersonConeController()
+        self.lang_cone = rest.LanguageConeController()
 
         # load classes providing search queries
         self.pers_query = query.PersQuery()
