@@ -24,9 +24,9 @@ copyright = '2019, Donatus Herre'
 author = 'Donatus Herre'
 
 # The short X.Y version
-version = '2019.04.22'
+version = '2019.04.30'
 # The full version, including alpha/beta/rc tags
-release = '2019.04.22a1'
+release = '2019.04.30'
 
 
 # -- General configuration ---------------------------------------------------
@@ -68,7 +68,10 @@ language = None
 exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'tango'
+pygments_style = 'sphinx'
+
+# If true, `todo` and `todoList` produce output, else they produce nothing.
+# todo_include_todos = False
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -78,13 +81,17 @@ pygments_style = 'tango'
 #
 
 html_theme = 'sphinx_rtd_theme'
-html_theme_path = ["_themes", ]
+# html_theme_path = ["_themes", ]
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+    'collapse_navigation': True,
+    'display_version': True,
+    'navigation_depth': 3,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -133,7 +140,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Pybman.tex', 'Pybman Documentation',
-     'Donatus Herre', 'manual'),
+     author, 'manual'),
 ]
 
 
@@ -162,7 +169,7 @@ texinfo_documents = [
 # -- Options for Epub output -------------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = project
+# epub_title = project
 
 # The unique identifier of the text. This can be a ISBN number
 # or the project homepage.
@@ -174,7 +181,7 @@ epub_title = project
 # epub_uid = ''
 
 # A list of files that should not be packed into the epub file.
-epub_exclude_files = ['search.html']
+# epub_exclude_files = ['search.html']
 
 
 # -- Extension configuration -------------------------------------------------
