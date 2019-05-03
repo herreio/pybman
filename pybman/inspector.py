@@ -143,7 +143,7 @@ class Inspector:
                 print("skipping item", record['data']['objectId'])
         return updates
 
-    def change_pers_name(self, old_family_name=None, new_family_name=None,old_given_name=None, new_given_name=None):
+    def change_pers_name(self, old_family_name=None, new_family_name=None, old_given_name=None, new_given_name=None):
         updates = {}
         if old_family_name and new_family_name:
             for record in self.records:

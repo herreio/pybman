@@ -284,6 +284,7 @@ class PersonConeController(ConeController):
         self.cone_persons_query = self.cone_persons + 'query?'
         self.cone_persons_resource = self.cone_persons + 'resource/'
 
+        self.idx = []
         self.meta = {}
         self.names = {}
 
@@ -292,8 +293,9 @@ class PersonConeController(ConeController):
         self.dc_alternative = 'http_purl_org_dc_terms_alternative'
         self.escidoc_pos = 'http_purl_org_escidoc_metadata_terms_0_1_position'
 
-        self.nodes = [["Id","Label"]]
-        self.edges = [["Source","Target"]]
+        self.nodes = [["Id", "Label"]]
+        self.edges = [["Source", "Target"]]
+        self.no_edge = []
 
     def get_entities(self):
         return utils.get_request(self.cone_persons_all, self.format)
@@ -306,7 +308,7 @@ class PersonConeController(ConeController):
         pers = self.get_entities()
         for p in pers:
             idx = p['id'].split("/")[-1:][0]
-            if idx in pers_unique:
+            if idx in self.names:
                 self.names[idx].append(p['value'])
             else:
                 self.names[idx] = [p['value']]
@@ -317,8 +319,8 @@ class PersonConeController(ConeController):
         if not self.meta and not self.names:
             self.init()
         for idx in tqdm(self.idx):
-            pers_details = pers_controller.get_entity(idx)
-            self.full_meta[idx] = pers_details
+            pers_details = self.get_entity(idx)
+            self.meta[idx] = pers_details
 
     def ous_graph(self):
         #
@@ -326,61 +328,59 @@ class PersonConeController(ConeController):
         #
         if not self.idx and not self.meta:
             self.full_init()
-        if not self.full_meta:
-            self.full_init()
         #
         # iterate over identifiers from persons
         #
         for idx in self.idx:
-            pers_details = self.full_meta[idx]
+            pers_details = self.meta[idx]
             #
             # extract name (label) of person (node)
             #
             if self.dc_title in pers_details:
                 pers_name = pers_details[self.dc_title]
-            elif self.dc_title not in pers_details and dc_alternative in pers_details:
+            elif self.dc_title not in pers_details and self.dc_alternative in pers_details:
                 # print(idx, "has just an alternative name!")
-                pers_name = pers_details[dc_alternative]
+                pers_name = pers_details[self.dc_alternative]
             else:
                 print("no name found for", idx)
                 pers_name = 'NONE'
-            self.nodes.append([idx,pers_name])
+            self.nodes.append([idx, pers_name])
             #
             # extract affiliation to organizational units (edge)
             #
-            if escidoc_pos in pers_details:
-                affiliation = pers_details[escidoc_pos]
+            if self.escidoc_pos in pers_details:
+                affiliation = pers_details[self.escidoc_pos]
                 #
                 # person has one affiliation
                 #
                 if type(affiliation) == dict:
-                    if dc_idx in affiliation:
-                        pers_ou = affiliation[dc_idx]
-                        pers_edges.append([idx,pers_ou])
+                    if self.dc_idx in affiliation:
+                        pers_ou = affiliation[self.dc_idx]
+                        self.edges.append([idx, pers_ou])
                     else:
-                        no_idx.append(idx)
+                        self.no_edge.append(idx)
                 #
                 # ... has more than one affilation
                 #
                 elif type(affiliation) == list:
                     found = False
                     for affil in affiliation:
-                        if dc_idx in affil:
-                            pers_ou = affil[dc_idx]
-                            pers_edges.append([idx,pers_ou])
+                        if self.dc_idx in affil:
+                            pers_ou = affil[self.dc_idx]
+                            self.edges.append([idx, pers_ou])
                             found = True
                     if not found:
-                        no_idx.append(idx)
+                        self.no_edge.append(idx)
                 #
                 # unhandled data type of affilation
                 #
                 else:
-                    no_idx.append(idx)
+                    self.no_edge.append(idx)
             #
             # person has no affilation at all
             #
             else:
-                no_idx.append(idx)
+                self.no_edge.append(idx)
 
     def search_entity(self, cone_id):
         pass
@@ -437,7 +437,7 @@ class LanguageConeController(ConeController):
         for lang in langs:
             idx = lang['id'].split("/")[-1]
             self.meta[idx] = lang['value']
-        self.idx = list(lang_meta.keys())
+        self.idx = list(self.meta.keys())
         self.idx.sort()
 
     def full_init(self):

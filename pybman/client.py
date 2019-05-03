@@ -30,7 +30,7 @@ class Client:
         # inspector class
         self.inspector = None
 
-    def get_data(self, ctx_id=None, ou_id=None, pers_id=None, lang_id=None, query=None):
+    def get_data(self, ctx_id=None, ou_id=None, pers_id=None, lang_id=None, misc_query=None):
         if ctx_id:
             ctx_query = self.ctx_query.get_item_query(ctx_id)
             self.item_rest.search_items(query=ctx_query)
@@ -47,8 +47,8 @@ class Client:
             lang_query = self.lang_query.get_item_query(lang_id)
             self.item_rest.search_items(query=lang_query)
             return data.DataSet(lang_id, raw=self.item_rest.records)
-        elif query:
-            self.item_rest.search_items(query=query)
+        elif misc_query:
+            self.item_rest.search_items(query=misc_query)
             return data.DataSet("query_data", raw=self.item_rest.records)
         else:
             print("please specify data to retrieve!")
@@ -112,8 +112,9 @@ class Client:
         clean_data = self.inspector.change_genre(new_genre, old_genre)
         total = 0
         if clean_data:
+            comment = 'auto-update: change genre of item from ' + old_genre + " to " + new_genre
             for k in clean_data:
-                updated = self.update_data(k, clean_data[k]['data'], 'auto-update: change genre of item from '+ old_genre +" to " + new_genre)
+                updated = self.update_data(k, clean_data[k]['data'], comment)
                 if updated:
                     total += 1
             print("updated genre of", total, "items!")
@@ -138,8 +139,9 @@ class Client:
         clean_data = self.inspector.check_source_titles(clean=True)
         total = 0
         if clean_data:
+            comment = 'auto-update: source title stripped'
             for k in clean_data:
-                updated = self.update_data(k, clean_data[k]['data'], 'auto-update: source title stripped')
+                updated = self.update_data(k, clean_data[k]['data'], comment)
                 if updated:
                     total += 1
             print("updated", total, "source titles!")
