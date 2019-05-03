@@ -43,8 +43,10 @@ class DataSet:
         for record in self.records:
             if 'creators' in record['data']['metadata']:
                 creators_list = record['data']['metadata']['creators']
+                found = False
                 for creator in creators_list:
                     if 'person' in creator:
+                        found = True
                         if 'identifier' in creator['person']:
                             idx = creator['person']['identifier']['id']
                             if idx in creators:
@@ -52,9 +54,13 @@ class DataSet:
                             else:
                                 creators[idx] = [record]
                         else:
-                            print("no identifier found for", record['data']['objectId'])
-                    else:  # eine person und eine organisation: fall tritt ein, obwohl person da
-                        print("no person found for", record['data']['objectId'])
+                            if 'givenName' in creator['person'] and 'familyName' in creator['person']:
+                                pers_name = creator['person']['givenName'] + " " + creator['person']['familyName']
+                                print("no identifier found for", pers_name)
+                            else:
+                                print("no identifier found for creator of", record['data']['objectId'])
+                if not found:
+                    print("no person found for", record['data']['objectId'])
         return creators
 
     def get_cone_persons(self):
