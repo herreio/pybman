@@ -142,3 +142,29 @@ class Inspector:
             else:
                 print("skipping item", record['data']['objectId'])
         return updates
+
+    def change_pers_name(self, old_family_name=None, new_family_name=None,old_given_name=None, new_given_name=None):
+        updates = {}
+        if old_family_name and new_family_name:
+            for record in self.records:
+                creators = record['data']['metadata']['creators']
+                for creator in creators:
+                    if creator['type'] == 'PERSON':
+                        if creator['person']['familyName'] == old_family_name:
+                            creator['person']['familyName'] = new_family_name
+                            updates[record['data']['objectId']] = record
+            return updates
+
+        elif old_given_name and new_given_name:
+            for record in self.records:
+                creators = record['data']['metadata']['creators']
+                for creator in creators:
+                    if creator['type'] == 'PERSON':
+                        if creator['person']['givenName'] == old_given_name:
+                            creator['person']['givenName'] = new_given_name
+                            updates[record['data']['objectId']] = record
+            return updates
+
+        else:
+            print("please pass either new and old family name or given name!")
+            return updates
