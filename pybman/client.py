@@ -8,7 +8,7 @@ from pybman import inspector
 
 class Client:
 
-    def __init__(self, secret='./conf/secret.json'):
+    def __init__(self, secret=''):
 
         # load rest api controllers
         self.item_rest = rest.ItemRestController(secret)
