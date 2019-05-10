@@ -1,3 +1,4 @@
+import re
 import json
 import requests
 # import urllib3
@@ -5,6 +6,13 @@ import pkg_resources
 
 from urllib.parse import urlencode
 
+
+def clean_string(string):
+    string = string.strip()
+    string = string.replace("\n", " ")
+    string = string.replace("\r", " ")
+    string = re.sub(' +', ' ', string)
+    return string
 
 # write given list (results) to file at path
 def write_list(path, results):

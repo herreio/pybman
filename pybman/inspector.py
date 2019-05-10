@@ -11,10 +11,17 @@ class Inspector:
         updates = {}
         for record in self.records:
             publication_title = record['data']['metadata']['title']
-            if publication_title != publication_title.strip():
+            # if publication_title != publication_title.strip():
+            #    item_id = record['data']['objectId']
+            #    if clean:
+            #        record['data']['metadata']['title'] = publication_title.strip()
+            #    updates[item_id] = record
+            if publication_title != utils.clean_string(publication_title):
                 item_id = record['data']['objectId']
                 if clean:
-                    record['data']['metadata']['title'] = publication_title.strip()
+                    # print("dirty:", publication_title)
+                    record['data']['metadata']['title'] = utils.clean_string(publication_title)
+                    # print(record['data']['metadata']['title'])
                 updates[item_id] = record
         return updates
 
@@ -23,10 +30,12 @@ class Inspector:
         for record in self.records:
             if 'sources' in record['data']['metadata']:
                 for source in record['data']['metadata']['sources']:
-                    if source['title'] != source['title'].strip():
+                    if source['title'] != utils.clean_string(source['title']):
                         item_id = record['data']['objectId']
                         if clean:
-                            source['title'] = source['title'].strip()
+                            # print("dirty:",source['title'])
+                            source['title'] = utils.clean_string(source['title'])
+                            # print("clean:", source['title'])
                         updates[item_id] = record
         return updates
 
@@ -36,20 +45,20 @@ class Inspector:
             if 'publishingInfo' in record['data']['metadata']:
                 if 'publisher' in record['data']['metadata']['publishingInfo']:
                     publisher = record['data']['metadata']['publishingInfo']['publisher']
-                    if publisher != publisher.strip():
+                    if publisher != utils.clean_string(publisher):
                         item_id = record['data']['objectId']
                         if clean:
-                            record['data']['metadata']['publishingInfo']['publisher'] = publisher.strip()
+                            record['data']['metadata']['publishingInfo']['publisher'] = utils.clean_string(publisher)
                         updates[item_id] = record
             if 'sources' in record['data']['metadata']:
                 for source in record['data']['metadata']['sources']:
                     if 'publishingInfo' in source:
                         if 'publisher' in source['publishingInfo']:
                             publisher = source['publishingInfo']['publisher']
-                            if publisher != publisher.strip():
+                            if publisher != utils.clean_string(publisher):
                                 item_id = record['data']['objectId']
                                 if clean:
-                                    source['publishingInfo']['publisher'] = publisher.strip()
+                                    source['publishingInfo']['publisher'] = utils.clean_string(publisher)
                                 updates[item_id] = record
         return updates
 
@@ -59,20 +68,20 @@ class Inspector:
             if 'publishingInfo' in record['data']['metadata']:
                 if 'place' in record['data']['metadata']['publishingInfo']:
                     place = record['data']['metadata']['publishingInfo']['place']
-                    if place != place.strip():
+                    if place != utils.clean_string(place):
                         item_id = record['data']['objectId']
                         if clean:
-                            record['data']['metadata']['publishingInfo']['place'] = place.strip()
+                            record['data']['metadata']['publishingInfo']['place'] = utils.clean_string(place)
                         updates[item_id] = record
             if 'sources' in record['data']['metadata']:
                 for source in record['data']['metadata']['sources']:
                     if 'publishingInfo' in source:
                         if 'place' in source['publishingInfo']:
                             place = source['publishingInfo']['place']
-                            if place != place.strip():
+                            if place != utils.clean_string(place):
                                 item_id = record['data']['objectId']
                                 if clean:
-                                    source['publishingInfo']['place'] = place.strip()
+                                    source['publishingInfo']['place'] = utils.clean_string(place)
                                 updates[item_id] = record
         return updates
 

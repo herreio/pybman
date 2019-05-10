@@ -86,8 +86,9 @@ class Client:
         clean_data = self.inspector.check_publication_titles(clean=True)
         total = 0
         if clean_data:
+            comment = 'auto-update: publication title stripped'
             for k in clean_data:
-                updated = self.update_data(k, clean_data[k]['data'], 'auto-update: publication title stripped')
+                updated = self.update_data(k, clean_data[k]['data'], comment)
                 if updated:
                     total += 1
             print("updated", total, "publication titles!")
@@ -167,8 +168,9 @@ class Client:
         clean_data = self.inspector.check_publishers(clean=True)
         total = 0
         if clean_data:
+            comment = 'auto-update: remove control characters from publisher value'
             for k in clean_data:
-                updated = self.update_data(k, clean_data[k]['data'], 'auto-update: publisher stripped')
+                updated = self.update_data(k, clean_data[k]['data'], comment)
                 if updated:
                     total += 1
         else:
@@ -194,8 +196,9 @@ class Client:
         clean_data = self.inspector.check_publishing_places(clean=True)
         total = 0
         if clean_data:
+            comment = 'auto-update: remove control characters from publishing place value'
             for k in clean_data:
-                updated = self.update_data(k, clean_data[k]['data'], 'auto-update: publishing place stripped')
+                updated = self.update_data(k, clean_data[k]['data'], comment)
                 if updated:
                     total += 1
         else:
