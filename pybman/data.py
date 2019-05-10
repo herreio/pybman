@@ -220,6 +220,16 @@ class DataSet:
                 journals[items[k]['title']] = [k]
         return journals
 
+    def get_journals_data(self):
+        journals = {}
+        items = self.get_items_with_source_genre("JOURNAL")
+        for k in items:
+            if items[k]['title'] in journals:
+                journals[items[k]['title']].append(self.get_item(k))
+            else:
+                journals[items[k]['title']] = [self.get_item(k)]
+        return journals
+
     def get_series(self):
         series = {}
         items = self.get_items_with_source_genre("SERIES")
@@ -308,15 +318,13 @@ class DataSet:
         source_titles = {}
         for record in self.records:
             if 'sources' in record['data']['metadata']:
-                # if len(record['data']['metadata']['sources']) > 1:
-                #    for source in record['data']['metadata']['sources']:
-                #        if genre:
-                #            source_titles[record['data']['objectId']] = source['title'] if source['genre'] == genre
-                #        else:
-                #            source_titles[record['data']['objectId']] = source['title']
-                # else:
-                #    source_titles[record['data']['objectId']]
-                pass
+                for source in record['data']['metadata']['sources']:
+                    title = source['title']
+                    if title in source_titles:
+                        source_titles[title].append(record['data']['objectId'])
+                    else:
+                        source_titles[title] = [record['data']['objectId']]
+        return source_titles
 
     # get items with state 'submitted'
     def get_items_submitted(self):
