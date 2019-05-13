@@ -32,7 +32,7 @@ class RestController(BaseController):
 
 class LoginRestController(RestController):
 
-    def __init__(self, auth=True, cred='conf/secret.json'):
+    def __init__(self, auth=True, cred=''):
 
         super().__init__()
 
@@ -106,7 +106,7 @@ class LoginRestController(RestController):
 
 class ItemRestController(LoginRestController):
 
-    def __init__(self, secret):
+    def __init__(self, secret=''):
 
         if secret:
             super().__init__(cred=secret)
@@ -123,6 +123,22 @@ class ItemRestController(LoginRestController):
         self.header = {"accept": "application/json", "Content-Type": "application/json"}
         self.query = {"query": {"term": {"context.objectId": {"value": "ctx_924547", "boost": 1.0}}},
                       "size": "50", "from": "0"}
+
+    def count_items(self, query=None):
+        self.records = []
+        url = self.rest_items_search  # + params
+        params = self.params
+        headers = self.header
+        if query:
+            response = utils.post_request(url, params, headers, query)
+            if 'numberOfRecords' in response:
+                return response['numberOfRecords']
+            else:
+                print('something went wrong while data retrieval!')
+                return 0
+        else:
+            print("please pass query!")
+            return 0
 
     def search_items(self, query=None):
         self.records = []
