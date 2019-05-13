@@ -26,6 +26,7 @@ class Client:
         self.ou_query = query.OrgUnitQuery()
         self.ctx_query = query.ContextQuery()
         self.lang_query = query.LangQuery()
+        self.all_query = query.AllQuery()
 
         # inspector class
         self.inspector = None

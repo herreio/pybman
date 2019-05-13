@@ -1,0 +1,117 @@
+{ "query": {
+  "bool" : {
+    "must" : [
+      {
+        "term" : {
+          "publicState" : {
+            "value" : "RELEASED",
+            "boost" : 1.0
+          }
+        }
+      },
+      {
+        "term" : {
+          "versionState" : {
+            "value" : "RELEASED",
+            "boost" : 1.0
+          }
+        }
+      },
+      {
+        "nested" : {
+          "query" : {
+            "bool" : {
+              "must" : [
+                {
+                  "term" : {
+                    "files.storage" : {
+                      "value" : "EXTERNAL_URL",
+                      "boost" : 1.0
+                    }
+                  }
+                },
+                {
+                  "bool" : {
+                    "should" : [
+                      {
+                        "match" : {
+                          "files.metadata.contentCategory" : {
+                            "query" : "post-print",
+                            "operator" : "AND",
+                            "prefix_length" : 0,
+                            "max_expansions" : 50,
+                            "fuzzy_transpositions" : true,
+                            "lenient" : false,
+                            "zero_terms_query" : "NONE",
+                            "auto_generate_synonyms_phrase_query" : true,
+                            "boost" : 1.0
+                          }
+                        }
+                      },
+                      {
+                        "match" : {
+                          "files.metadata.contentCategory" : {
+                            "query" : "pre-print",
+                            "operator" : "AND",
+                            "prefix_length" : 0,
+                            "max_expansions" : 50,
+                            "fuzzy_transpositions" : true,
+                            "lenient" : false,
+                            "zero_terms_query" : "NONE",
+                            "auto_generate_synonyms_phrase_query" : true,
+                            "boost" : 1.0
+                          }
+                        }
+                      },
+                      {
+                        "match" : {
+                          "files.metadata.contentCategory" : {
+                            "query" : "any-fulltext",
+                            "operator" : "AND",
+                            "prefix_length" : 0,
+                            "max_expansions" : 50,
+                            "fuzzy_transpositions" : true,
+                            "lenient" : false,
+                            "zero_terms_query" : "NONE",
+                            "auto_generate_synonyms_phrase_query" : true,
+                            "boost" : 1.0
+                          }
+                        }
+                      },
+                      {
+                        "match" : {
+                          "files.metadata.contentCategory" : {
+                            "query" : "publisher-version",
+                            "operator" : "AND",
+                            "prefix_length" : 0,
+                            "max_expansions" : 50,
+                            "fuzzy_transpositions" : true,
+                            "lenient" : false,
+                            "zero_terms_query" : "NONE",
+                            "auto_generate_synonyms_phrase_query" : true,
+                            "boost" : 1.0
+                          }
+                        }
+                      }
+                    ],
+                    "adjust_pure_negative" : true,
+                    "boost" : 1.0
+                  }
+                }
+              ],
+              "adjust_pure_negative" : true,
+              "boost" : 1.0
+            }
+          },
+          "path" : "files",
+          "ignore_unmapped" : false,
+          "score_mode" : "avg",
+          "boost" : 1.0
+        }
+      }
+    ],
+    "adjust_pure_negative" : true,
+    "boost" : 1.0
+  }
+ } 
+}

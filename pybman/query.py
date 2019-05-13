@@ -13,6 +13,22 @@ class ConeQuery:
     def __init__(self):
         pass
 
+class AllQuery:
+
+    def __init__(self):
+        self.files_query_fp = utils.resolve_path('static/elastic/item-all-files-released.json')
+        self.locators_query_fp = utils.resolve_path('static/elastic/item-all-locators-released.json')
+
+        self.files_query = utils.read_json(self.files_query_fp)
+        self.locators_query = utils.read_json(self.locators_query_fp)
+
+    def get_files_query(self):
+        data = deepcopy(self.files_query)
+        return data
+
+    def get_locators_query(self):
+        data = deepcopy(self.locators_query)
+        return data
 
 class ContextQuery:
 
