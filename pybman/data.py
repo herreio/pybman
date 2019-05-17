@@ -57,6 +57,9 @@ class DataSet:
                             if 'givenName' in creator['person'] and 'familyName' in creator['person']:
                                 pers_name = creator['person']['givenName'] + " " + creator['person']['familyName']
                                 print("no identifier found for", pers_name)
+                            elif 'givenName' not in person and 'familyName' in person:
+                                pers_name = creator['person']['familyName']
+                                print("no identifier found for", pers_name,"of",record['data']['objectId'])
                             else:
                                 print("no identifier found for creator of", record['data']['objectId'])
                 if not found:
