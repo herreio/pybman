@@ -120,3 +120,24 @@ class LangQuery:
         data = deepcopy(self.item_released_query)
         data['query']['bool']['must'][2]['term']['metadata.languages']['value'] = lang_id
         return data
+
+class JournalQuery:
+
+    def __init__(self):
+        self.item_query_fp = utils.resolve_path('static/elastic/item-jour.json')
+        self.item_released_query_fp = utils.resolve_path('static/elastic/item-jour-released.json')
+
+        self.item_query = utils.read_json(self.item_query_fp)
+        self.item_released_query = utils.read_json(self.item_released_query_fp)
+
+    def get_item_query(self, jour_name):
+        data = deepcopy(self.item_query)
+        data['query']['bool']['should'][0]['match_phrase']['metadata.sources.title']['query'] = jour_name
+        data['query']['bool']['should'][1]['match_phrase']['metadata.sources.alternativeTitles.value']['query'] = jour_name
+        return data
+
+    def get_released_item_query(self, jour_name):
+        data = deepcopy(self.item_query)
+        data['query']['bool']['must'][2]['bool']['should'][0]['match_phrase']['metadata.sources.title']['query'] = jour_name
+        data['query']['bool']['must'][2]['bool']['should'][1]['match_phrase']['metadata.sources.alternativeTitles.value']['query'] = jour_name
+        return data

@@ -1,0 +1,50 @@
+{"query": {
+  "bool" : {
+    "must" : [
+      {
+        "term" : {
+          "publicState" : {
+            "value" : "RELEASED",
+            "boost" : 1.0
+          }
+        }
+      },
+      {
+        "term" : {
+          "versionState" : {
+            "value" : "RELEASED",
+            "boost" : 1.0
+          }
+        }
+      },
+      {
+        "bool" : {
+          "should" : [
+            {
+              "match_phrase" : {
+                "metadata.sources.title" : {
+                  "query" : "xxx",
+                  "slop" : 0,
+                  "boost" : 1.0
+                }
+              }
+            },
+            {
+              "match_phrase" : {
+                "metadata.sources.alternativeTitles.value" : {
+                  "query" : "xxx",
+                  "slop" : 0,
+                  "boost" : 1.0
+                }
+              }
+            }
+          ],
+          "adjust_pure_negative" : true,
+          "boost" : 1.0
+        }
+      }
+    ],
+    "adjust_pure_negative" : true,
+    "boost" : 1.0
+  }
+}, "size" : "500","from" : "0"}
