@@ -38,6 +38,13 @@ class DataSet:
                     creators.append(creator)
         return creators
 
+    def get_creators_from_records(self):
+        creators = []
+        for record in self.records:
+            if 'creators' in record['data']['metadata']:
+                creators.append(record['data']['metadata']['creators'])
+        return creators
+
     def get_creators_data(self):
         creators = {}
         for record in self.records:
@@ -48,20 +55,21 @@ class DataSet:
                     if 'person' in creator:
                         found = True
                         if 'identifier' in creator['person']:
-                            idx = creator['person']['identifier']['id']
+                            idx = creator['person']['identifier']['id'].split("/")[-1]
                             if idx in creators:
                                 creators[idx].append(record)
                             else:
                                 creators[idx] = [record]
                         else:
-                            if 'givenName' in creator['person'] and 'familyName' in creator['person']:
-                                pers_name = creator['person']['givenName'] + " " + creator['person']['familyName']
-                                print("no identifier found for", pers_name)
-                            elif 'givenName' not in person and 'familyName' in person:
-                                pers_name = creator['person']['familyName']
-                                print("no identifier found for", pers_name,"of",record['data']['objectId'])
-                            else:
-                                print("no identifier found for creator of", record['data']['objectId'])
+                            continue
+                            # if 'givenName' in creator['person'] and 'familyName' in creator['person']:
+                            #    pers_name = creator['person']['givenName'] + " " + creator['person']['familyName']
+                            #    # print("no identifier found for", pers_name)
+                            # elif 'givenName' not in person and 'familyName' in person:
+                            #    # pers_name = creator['person']['familyName']
+                            #    # print("no identifier found for", pers_name,"of",record['data']['objectId'])
+                            # else:
+                            #    # print("no identifier found for creator of", record['data']['objectId'])
                 if not found:
                     print("no person found for", record['data']['objectId'])
         return creators
@@ -73,7 +81,7 @@ class DataSet:
                 if 'identifier' in creator['person']:
                     if creator['person']['identifier']['type'] == 'CONE':
                         if creator['person']['identifier']['id'] not in persons:
-                            cone_id = creator['person']['identifier']['id']
+                            cone_id = creator['person']['identifier']['id'].split("/")[-1]
                             if 'givenName' in creator['person']:
                                 name = creator['person']['givenName']
                                 if 'familyName' in creator['person']:
