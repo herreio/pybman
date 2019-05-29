@@ -137,7 +137,7 @@ class JournalQuery:
         return data
 
     def get_released_item_query(self, jour_name):
-        data = deepcopy(self.item_query)
+        data = deepcopy(self.item_released_query)
         data['query']['bool']['must'][2]['bool']['should'][0]['match_phrase']['metadata.sources.title']['query'] = jour_name
         data['query']['bool']['must'][2]['bool']['should'][1]['match_phrase']['metadata.sources.alternativeTitles.value']['query'] = jour_name
         return data
