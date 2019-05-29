@@ -26,12 +26,13 @@ class Client:
         self.ou_query = query.OrgUnitQuery()
         self.ctx_query = query.ContextQuery()
         self.lang_query = query.LangQuery()
+        self.jour_query = query.JournalQuery()
         self.all_query = query.AllQuery()
 
         # inspector class
         self.inspector = None
 
-    def get_data(self, ctx_id=None, ou_id=None, pers_id=None, lang_id=None, misc_query=None):
+    def get_data(self, ctx_id=None, ou_id=None, pers_id=None, lang_id=None, jour_name=None, misc_query=None):
         if ctx_id:
             ctx_query = self.ctx_query.get_item_query(ctx_id)
             self.item_rest.search_items(query=ctx_query)
@@ -48,6 +49,10 @@ class Client:
             lang_query = self.lang_query.get_item_query(lang_id)
             self.item_rest.search_items(query=lang_query)
             return data.DataSet(lang_id, raw=self.item_rest.records)
+        elif jour_name:
+            jour_query = self.jour_query.get_item_query(jour_name)
+            self.item_rest.search_items(query=jour_query)
+            return data.DataSet(jour_name, raw=self.item_rest.records)
         elif misc_query:
             self.item_rest.search_items(query=misc_query)
             return data.DataSet("query_data", raw=self.item_rest.records)
