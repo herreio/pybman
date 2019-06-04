@@ -388,7 +388,7 @@ class DataSet:
             if 'sources' in record['data']['metadata']:
                 for source in record['data']['metadata']['sources']:
                     if source_genre == source['genre']:
-                        records[record['data']['objectId']] = source
+                        records[record['data']['objectId']] = record
         return records
 
     # get items from collection with external url
