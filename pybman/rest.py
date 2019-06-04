@@ -85,9 +85,15 @@ class LoginRestController(RestController):
             grants = {}
             for grant in grantlist:
                 if grant['role'] in grants:
-                    grants[grant['role']].append(grant['objectRef'])
+                    if 'objectRef' in grant:
+                        grants[grant['role']].append(grant['objectRef'])
+                    else:
+                        grants[grant['role']] = 'no_object_ref'
                 else:
-                    grants[grant['role']] = [grant['objectRef']]
+                    if 'objectRef' in grant:
+                        grants[grant['role']] = [grant['objectRef']]
+                    else:
+                        grants[grant['role']] = 'no_object_ref'
             self.grants = grants
             self.roles = list(self.grants.keys())
             self.roles.sort()
