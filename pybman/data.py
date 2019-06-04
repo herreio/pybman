@@ -223,7 +223,7 @@ class DataSet:
 
     def get_journals(self):
         journals = {}
-        items = self.get_items_with_source_genre("JOURNAL")
+        items = self.get_source_from_items_with_source_genre("JOURNAL")
         for k in items:
             if items[k]['title'] in journals:
                 journals[items[k]['title']].append(k)
@@ -233,7 +233,7 @@ class DataSet:
 
     def get_journals_data(self):
         journals = {}
-        items = self.get_items_with_source_genre("JOURNAL")
+        items = self.get_source_from_items_with_source_genre("JOURNAL")
         for k in items:
             if items[k]['title'] in journals:
                 journals[items[k]['title']].append(self.get_item(k))
@@ -243,7 +243,7 @@ class DataSet:
 
     def get_series(self):
         series = {}
-        items = self.get_items_with_source_genre("SERIES")
+        items = self.get_source_from_items_with_source_genre("SERIES")
         for k in items:
             if items[k]['title'] in series:
                 series[items[k]['title']].append(k)
@@ -389,6 +389,15 @@ class DataSet:
                 for source in record['data']['metadata']['sources']:
                     if source_genre == source['genre']:
                         records[record['data']['objectId']] = record
+        return records
+
+    def get_source_from_items_with_source_genre(self, source_genre):
+        records = {}
+        for record in self.records:
+            if 'sources' in record['data']['metadata']:
+                for source in record['data']['metadata']['sources']:
+                    if source_genre == source['genre']:
+                        records[record['data']['objectId']] = source
         return records
 
     # get items from collection with external url
