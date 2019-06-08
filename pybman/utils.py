@@ -14,6 +14,7 @@ def clean_string(string):
     string = re.sub(' +', ' ', string)
     return string
 
+
 # write given list (results) to file at path
 def write_list(path, results):
     print("write list to file", path)
@@ -31,6 +32,20 @@ def write_csv(path, results):
     with open(path, "w+", encoding="utf8") as f:
         for row in results:
             f.write('"' + '","'.join(row) + '"\n')
+
+
+def read_csv_with_header(path):
+    lines = read_plain_clean(path)
+    header = lines[0].split(",")
+    columns = []
+    values = {}
+    for name in header:
+        columns.append(name.replace('"',''))
+        values[name.replace('"','')] = []
+    for row in lines[1:]:
+        for i, v in enumerate(row.split(",", 1)):
+            values[columns[i]].append(v.replace('"',''))
+    return values
 
 
 # read plain text file
