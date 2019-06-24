@@ -198,6 +198,14 @@ class DataSet:
                             else:
                                 places[place] = [record['data']['objectId']]
         return places
+    
+    def get_contexts(self):
+        contexts = {}
+        for record in self.records:
+            item_idx = record['data']['objectId']
+            ctx_idx = record['data']['context']['objectId']
+            contexts[item_idx] = ctx_idx
+        return contexts
 
     # get publishers of items
     def get_publishers(self):
@@ -288,6 +296,17 @@ class DataSet:
             else:
                 print("no publication date found for", record['data']['objectId'])
         return years
+
+    def get_languages(self):
+        languages = {}
+        #for record in self.records:
+        #    if 'languages' in record['data']['metadata']:
+        #        item_idx = record['data']['objectId']
+        #        lang = record['data']['metadata']['languages']
+        #        languages[item_idx] = lang
+        #        else:
+        #            print(record['data']['objectId'], "has no language!")
+        return languages
 
     def get_languages_data(self):
         languages = {}
