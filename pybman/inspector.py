@@ -152,6 +152,24 @@ class Inspector:
                 print("skipping item", record['data']['objectId'])
         return updates
 
+    def change_source_genre(self, new_genre, old_genre):
+        updates = {}
+        for record in self.records:
+            if 'sources' in record['data']['metadata']:
+                sources = record['data']['metadata']['sources']
+                found = False
+                for source in sources:
+                    if source['genre'] == old_genre:
+                        source['genre'] = new_genre
+                        updates[record['data']['objectId']] = record
+                        found = True
+                        break
+                if not found:
+                    print("skipping item", record['data']['objectId'])
+            else:
+                print("skipping item", record['data']['objectId'],"without sources!")
+        return updates
+
     def change_pers_name(self, old_family_name=None, new_family_name=None, old_given_name=None, new_given_name=None):
         updates = {}
         if old_family_name and new_family_name:

@@ -130,6 +130,33 @@ class Client:
             print("nothing to do...")
             return 0
 
+    def change_source_genre(self, new_genre, old_genre, data_set=None):
+
+        print("start changing source genre of items")
+
+        # create new inspector instance
+        if data_set:
+            self.clean_init(data_set)
+        else:
+            print("failed to initialize inspector!")
+            print("please pass data to be cleaned.")
+            return 0
+
+        clean_data = self.inspector.change_source_genre(new_genre, old_genre)
+        total = 0
+
+        if clean_data:
+            comment = 'auto-update: change source genre of item from ' + old_genre + " to " + new_genre
+            for k in clean_data:
+                updated = self.update_data(k, clean_data[k]['data'], comment)
+                if updated:
+                    total += 1
+            print("updated genre of", total, "items!")
+        else:
+            print("source genre is correctly chosen already!")
+            print("nothing to do...")
+            return 0
+
     def clean_source_titles(self, data_set=None):
 
         print("start cleaning source title data!")
