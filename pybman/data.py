@@ -177,6 +177,24 @@ class DataSet:
                 genres[record['data']['metadata']['genre']] = [record]
         return genres
 
+    # get items from collection with given genre
+    def get_genre_relationships(self):
+        genres = {}
+        for record in self.records:
+            genre = record['data']['metadata']['genre']
+            if genre not in genres:
+                genres[genre] = {}
+            if 'sources' in record['data']['metadata']:
+                for source in record['data']['metadata']['sources']:
+                    if source['genre'] not in genres[genre]:
+                        genres[genre][source['genre']] = []
+                    genres[genre][source['genre']].append(record['data']['objectId'])
+            else:
+                if 'NONE' not in genres[genre]:
+                    genres[genre]['NONE'] = []
+                genres[genre]['NONE'].append(record['data']['objectId'])
+        return genres
+
     # get publication places of items
     def get_places(self):
         places = {}
@@ -198,7 +216,7 @@ class DataSet:
                             else:
                                 places[place] = [record['data']['objectId']]
         return places
-    
+
     def get_contexts(self):
         contexts = {}
         for record in self.records:
@@ -299,13 +317,16 @@ class DataSet:
 
     def get_languages(self):
         languages = {}
-        #for record in self.records:
-        #    if 'languages' in record['data']['metadata']:
-        #        item_idx = record['data']['objectId']
-        #        lang = record['data']['metadata']['languages']
-        #        languages[item_idx] = lang
-        #        else:
-        #            print(record['data']['objectId'], "has no language!")
+        for record in self.records:
+            if 'languages' in record['data']['metadata']:
+                item_idx = record['data']['objectId']
+                lang = record['data']['metadata']['languages']
+                if lang in languages:
+                    languages[lang].append(item_idx)
+                else:
+                    languages[lang] = [item_idx]
+            else:
+                print(record['data']['objectId'], "has no language!")
         return languages
 
     def get_languages_data(self):
@@ -328,6 +349,30 @@ class DataSet:
                 else:
                     print(record['data']['objectId'], "has no language!")
         return languages
+
+    # get collection of source genres
+    def get_source_genres(self):
+        genres = {}
+        for record in self.records:
+            if 'sources' in record['data']['metadata']:
+                for source in record['data']['metadata']['sources']:
+                    if source['genre'] in genres:
+                        genres[source['genre']].append(record['data']['objectId'])
+                    else:
+                        genres[source['genre']] = [record['data']['objectId']]
+        return genres
+
+    # get collection of source genres
+    def get_source_genres_data(self):
+        genres = {}
+        for record in self.records:
+            if 'sources' in record['data']['metadata']:
+                for source in record['data']['metadata']['sources']:
+                    if source['genre'] in genres:
+                        genres[source['genre']].append(record)
+                    else:
+                        genres[source['genre']] = [record]
+        return genres
 
     # get identifiers from sources of items
     def get_sources_identifiers(self):
