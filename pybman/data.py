@@ -320,11 +320,12 @@ class DataSet:
         for record in self.records:
             if 'languages' in record['data']['metadata']:
                 item_idx = record['data']['objectId']
-                lang = record['data']['metadata']['languages']
-                if lang in languages:
-                    languages[lang].append(item_idx)
-                else:
-                    languages[lang] = [item_idx]
+                langs = record['data']['metadata']['languages']
+                for lang in langs:
+                    if lang in languages:
+                        languages[lang].append(item_idx)
+                    else:
+                        languages[lang] = [item_idx]
             else:
                 print(record['data']['objectId'], "has no language!")
         return languages
