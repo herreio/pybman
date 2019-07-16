@@ -50,7 +50,7 @@ def read_csv_with_header(path):
 
 # read plain text file
 def read_plain_clean(path):
-    print("read plain text file", path)
+    # print("read plain text file", path)
     lines = []
     with open(path, 'r', encoding='utf-8') as f:
         for line in f.readlines():
@@ -60,7 +60,7 @@ def read_plain_clean(path):
 
 # read json file at path
 def read_json(path):
-    print("read file", path)
+    # print("read file", path)
     result = {}
     with open(path, 'r', encoding='utf-8') as f:
         result = json.load(f)
