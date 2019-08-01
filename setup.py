@@ -9,7 +9,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="pybman",
-    version="2019.7.16",
+    version="2019.8.1",
     author="Donatus Herre",
     author_email="pypi@herre.io",
     license="GPL",
