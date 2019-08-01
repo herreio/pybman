@@ -21,12 +21,10 @@ class DataSet:
             self.persons = self.get_cone_persons()
 
         else:
-            # print("please pass (raw) data for initialization!")
             self.collection = {}
             self.num = 0
             self.records = []
             self.persons = {}
-            # self.creators = []
 
     # get creators of items
     def get_creators(self):
@@ -62,14 +60,6 @@ class DataSet:
                                 creators[idx] = [record]
                         else:
                             continue
-                            # if 'givenName' in creator['person'] and 'familyName' in creator['person']:
-                            #    pers_name = creator['person']['givenName'] + " " + creator['person']['familyName']
-                            #    # print("no identifier found for", pers_name)
-                            # elif 'givenName' not in person and 'familyName' in person:
-                            #    # pers_name = creator['person']['familyName']
-                            #    # print("no identifier found for", pers_name,"of",record['data']['objectId'])
-                            # else:
-                            #    # print("no identifier found for creator of", record['data']['objectId'])
                 if not found:
                     print("no person found for", record['data']['objectId'])
         return creators
@@ -94,15 +84,6 @@ class DataSet:
                                     name = ''
                             persons[cone_id] = name
         return persons
-
-
-#    def init_pers_data(self):
-#        pers_data = []
-#        for p in self.persons:
-#            p_data = export.get_pers(p)
-#            p_idx = p.split('/')[-1]
-#            pers_data.append(DataSet(p_idx,data=p_data))
-#        return pers_data
 
     def get_organizations(self):
         organizations = {}
@@ -141,7 +122,6 @@ class DataSet:
                 titles[title].append(record['data']['objectId'])
             else:
                 titles[title] = [record['data']['objectId']]
-            # titles.append(record['data']['metadata']['title'])
         return titles
 
     # get titles from source of items
@@ -154,7 +134,6 @@ class DataSet:
                         source_titles[source['title']].append(record['data']['objectId'])
                     else:
                         source_titles[source['title']] = [record['data']['objectId']]
-                    # source_titles.append(source['title'])
         return source_titles
 
     # get list of genres from collection
@@ -485,7 +464,3 @@ class DataSet:
                     if idx['type'] == 'URI':
                         records[record['data']['objectId']] = record
         return records
-
-    def save_titles(self):
-        # titles = self.get_titles()
-        pass

@@ -11,7 +11,6 @@ class LocalData:
     def __init__(self, base_dir='./data/', ous_dir='ous', ctx_dir='ctx', pers_dir='pers', create=False):
 
         self.data_dir = os.path.realpath(base_dir)
-        # self.data_file = os.path.join(self.data_dir, 'paths.txt')
         self.data_exists = True
 
         self.ou_dir = os.path.join(self.data_dir, ous_dir)
@@ -106,39 +105,3 @@ class LocalData:
     # get data path for given id
     def generate_data_path(self, data_id):
         return self.data_dir + data_id + "--" + date.today().isoformat() + ".json"
-
-    # def change_data_path(self, idx):
-    #    """
-    #    update list of paths
-    #    """
-    #    pos = -1
-    #    for i, path in enumerate(self.data_paths):
-    #        if idx in path:
-    #            pos = i
-    #            break
-    #    new = self.generate_data_path(idx)
-    #    if pos < 0:
-    #        self.data_paths.append(new)
-    #        utils.write_list(self.data_file, self.data_paths)
-    #        print("local data file added", new)
-    #    else:
-    #        old = self.data_paths[pos]
-    #        # self.clean_local_data(old)
-    #        self.data_paths[pos] = new
-    #        utils.write_list(self.data_file, self.data_paths)
-    #        print("local data file updated", new)
-
-    # remove old local data
-    # def clean_local_data(self, idx):
-    #    """
-    #    clean up local data
-    #    """
-    #    path = self.find_data_path(idx)
-    #    if path:
-    #        print("removing file", path)
-    #        os.remove(path)
-    #    else:
-    #        print("failed to remove file from entity", idx)
-
-#    def store_titles_local(self, idx, data):
-#        pass

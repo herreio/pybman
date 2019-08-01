@@ -11,17 +11,10 @@ class Inspector:
         updates = {}
         for record in self.records:
             publication_title = record['data']['metadata']['title']
-            # if publication_title != publication_title.strip():
-            #    item_id = record['data']['objectId']
-            #    if clean:
-            #        record['data']['metadata']['title'] = publication_title.strip()
-            #    updates[item_id] = record
             if publication_title != utils.clean_string(publication_title):
                 item_id = record['data']['objectId']
                 if clean:
-                    # print("dirty:", publication_title)
                     record['data']['metadata']['title'] = utils.clean_string(publication_title)
-                    # print(record['data']['metadata']['title'])
                 updates[item_id] = record
         return updates
 
@@ -33,9 +26,7 @@ class Inspector:
                     if source['title'] != utils.clean_string(source['title']):
                         item_id = record['data']['objectId']
                         if clean:
-                            # print("dirty:",source['title'])
                             source['title'] = utils.clean_string(source['title'])
-                            # print("clean:", source['title'])
                         updates[item_id] = record
         return updates
 
@@ -84,14 +75,6 @@ class Inspector:
                                     source['publishingInfo']['place'] = utils.clean_string(place)
                                 updates[item_id] = record
         return updates
-
-    # @staticmethod
-    # def clean_publication_titles(records):
-    #    for k in records:
-    #        publication = records[k]
-    #        dirty_title = publication['data']['metadata']['title']
-    #        publication['data']['metadata']['title'] = dirty_title.strip()
-    #    return records
 
     def check_publication_date(self):
         # dateAccepted

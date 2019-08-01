@@ -1,9 +1,7 @@
 from pybman import data
-# from pybman import local
 from pybman import query
 from pybman import rest
 from pybman import inspector
-# from pybman import utils
 
 
 class Client:
