@@ -1,6 +1,6 @@
-from pybman import utils
-# from pybman import rest
+import re
 
+from pybman import utils
 
 class Inspector:
 
@@ -53,6 +53,30 @@ class Inspector:
                                 updates[item_id] = record
         return updates
 
+    def check_publishers_omission(self, clean=False):
+        et_al = re.compile(r"\s\[et\.? ?al\.?\]|\s\[u\.?\s?a\.?\]|\s\[etc\.?\]")
+        updates = {}
+        for record in self.records:
+            if 'publishingInfo' in record['data']['metadata']:
+                if 'publisher' in record['data']['metadata']['publishingInfo']:
+                    publisher = record['data']['metadata']['publishingInfo']['publisher']
+                    if publisher != et_al.sub("",publisher):
+                        item_id = record['data']['objectId']
+                        if clean:
+                            record['data']['metadata']['publishingInfo']['publisher'] = et_al.sub("",publisher)
+                        updates[item_id] = record
+            if 'sources' in record['data']['metadata']:
+                for source in record['data']['metadata']['sources']:
+                    if 'publishingInfo' in source:
+                        if 'publisher' in source['publishingInfo']:
+                            publisher = source['publishingInfo']['publisher']
+                            if publisher != et_al.sub("",publisher):
+                                item_id = record['data']['objectId']
+                                if clean:
+                                    source['publishingInfo']['publisher'] = et_al.sub("",publisher)
+                                updates[item_id] = record
+        return updates
+
     def check_publishing_places(self, clean=False):
         updates = {}
         for record in self.records:
@@ -73,6 +97,30 @@ class Inspector:
                                 item_id = record['data']['objectId']
                                 if clean:
                                     source['publishingInfo']['place'] = utils.clean_string(place)
+                                updates[item_id] = record
+        return updates
+
+    def check_publishing_places_omission(self, clean=False):
+        et_al = re.compile(r"\s\[et\.? ?al\.?\]|\s\[u\.?\s?a\.?\]|\s\[etc\.?\]")
+        updates = {}
+        for record in self.records:
+            if 'publishingInfo' in record['data']['metadata']:
+                if 'place' in record['data']['metadata']['publishingInfo']:
+                    place = record['data']['metadata']['publishingInfo']['place']
+                    if place != et_al.sub("", place):
+                        item_id = record['data']['objectId']
+                        if clean:
+                            record['data']['metadata']['publishingInfo']['place'] = et_al.sub("", place)
+                        updates[item_id] = record
+            if 'sources' in record['data']['metadata']:
+                for source in record['data']['metadata']['sources']:
+                    if 'publishingInfo' in source:
+                        if 'place' in source['publishingInfo']:
+                            place = source['publishingInfo']['place']
+                            if place != et_al.sub("", place):
+                                item_id = record['data']['objectId']
+                                if clean:
+                                    source['publishingInfo']['place'] = et_al.sub("", place)
                                 updates[item_id] = record
         return updates
 
