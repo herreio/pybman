@@ -99,8 +99,6 @@ class DataSet:
                                     organizations[organization['name']].append(record['data']['objectId'])
                                 else:
                                     organizations[organization['name']] = [record['data']['objectId']]
-                        else:
-                            print("no organization found for", person)
                     elif creator['type'] == 'ORGANIZATION':
                         organization = creator['organization']
                         if organization['name'] in organizations:
