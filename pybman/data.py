@@ -22,8 +22,10 @@ class DataSet:
             self.records = []
             self.persons = {}
 
-    # get creators of items
     def get_creators(self):
+        """
+        extract creators from records
+        """
         creators = []
         for record in self.records:
             if 'creators' in record['data']['metadata']:
@@ -33,6 +35,9 @@ class DataSet:
         return creators
 
     def get_creators_from_records(self):
+        """
+        extract creators lists from records
+        """
         creators = []
         for record in self.records:
             if 'creators' in record['data']['metadata']:
@@ -40,6 +45,9 @@ class DataSet:
         return creators
 
     def get_creators_data(self):
+        """
+        extract persons’ CoNE IDs and associated records
+        """
         creators = {}
         for record in self.records:
             if 'creators' in record['data']['metadata']:
@@ -61,6 +69,9 @@ class DataSet:
         return creators
 
     def get_cone_persons(self):
+        """
+        extract persons’ CoNE IDs and associated names
+        """
         persons = {}
         for creator in self.get_creators():
             if creator['type'] == 'PERSON':
@@ -82,6 +93,9 @@ class DataSet:
         return persons
 
     def get_organizations(self):
+        """
+        extract organizations of creators and associated IDs of records
+        """
         organizations = {}
         for record in self.records:
             if 'creators' in record['data']['metadata']:
@@ -107,8 +121,10 @@ class DataSet:
                 print(record['data']['objectId'], "has no creator!")
         return organizations
 
-    # get titles of items
     def get_titles(self):
+        """
+        extract titles and associated IDs of records
+        """
         titles = {}
         for record in self.records:
             title = record['data']['metadata']['title']
@@ -118,8 +134,10 @@ class DataSet:
                 titles[title] = [record['data']['objectId']]
         return titles
 
-    # get titles from source of items
     def get_titles_from_source(self):
+        """
+        extract titles of sources and associated IDs of records
+        """
         source_titles = {}
         for record in self.records:
             if 'sources' in record['data']['metadata']:
@@ -130,8 +148,10 @@ class DataSet:
                         source_titles[source['title']] = [record['data']['objectId']]
         return source_titles
 
-    # get list of genres from collection
     def get_genres(self):
+        """
+        extract genres and associated IDs of records
+        """
         genres = {}
         for record in self.records:
             if record['data']['metadata']['genre'] in genres:
@@ -140,8 +160,10 @@ class DataSet:
                 genres[record['data']['metadata']['genre']] = [record['data']['objectId']]
         return genres
 
-    # get list of genres from collection
     def get_genre_data(self):
+        """
+        extract genres and associated records
+        """
         genres = {}
         for record in self.records:
             if record['data']['metadata']['genre'] in genres:
@@ -150,8 +172,10 @@ class DataSet:
                 genres[record['data']['metadata']['genre']] = [record]
         return genres
 
-    # get items from collection with given genre
     def get_genre_relationships(self):
+        """
+        extract genres and associated source genres
+        """
         genres = {}
         for record in self.records:
             genre = record['data']['metadata']['genre']
@@ -168,8 +192,10 @@ class DataSet:
                 genres[genre]['NONE'].append(record['data']['objectId'])
         return genres
 
-    # get publication places of items
     def get_places(self):
+        """
+        extract publication places and associated IDs of records
+        """
         places = {}
         for record in self.records:
             if 'publishingInfo' in record['data']['metadata']:
@@ -191,6 +217,9 @@ class DataSet:
         return places
 
     def get_contexts(self):
+        """
+        extract IDs of records an associated IDs of collection
+        """
         contexts = {}
         for record in self.records:
             item_idx = record['data']['objectId']
@@ -198,8 +227,10 @@ class DataSet:
             contexts[item_idx] = ctx_idx
         return contexts
 
-    # get publishers of items
     def get_publishers(self):
+        """
+        extract publishers and associated IDs of records
+        """
         publishers = {}
         for record in self.records:
             if 'publishingInfo' in record['data']['metadata']:
@@ -221,6 +252,9 @@ class DataSet:
         return publishers
 
     def get_journals(self):
+        """
+        extract publication sources from records with JOURNAL as source genre
+        """
         journals = {}
         items = self.get_source_from_items_with_source_genre("JOURNAL")
         for k in items:
@@ -231,6 +265,9 @@ class DataSet:
         return journals
 
     def get_journals_data(self):
+        """
+        extract records with JOURNAL as source genre
+        """
         journals = {}
         items = self.get_source_from_items_with_source_genre("JOURNAL")
         for k in items:
@@ -241,6 +278,9 @@ class DataSet:
         return journals
 
     def get_series(self):
+        """
+        extract publication source from records with SERIES as source genre
+        """
         series = {}
         items = self.get_source_from_items_with_source_genre("SERIES")
         for k in items:
@@ -377,8 +417,10 @@ class DataSet:
                 print(record['data']['objectId'], "has no language!")
         return languages
 
-    # get collection of source genres
     def get_source_genres(self):
+        """
+        extract genres of publication sources and associated record IDs
+        """
         genres = {}
         for record in self.records:
             if 'sources' in record['data']['metadata']:
@@ -389,8 +431,10 @@ class DataSet:
                         genres[source['genre']] = [record['data']['objectId']]
         return genres
 
-    # get collection of source genres
     def get_source_genres_data(self):
+        """
+        extract genres of publication sources and associated records
+        """
         genres = {}
         for record in self.records:
             if 'sources' in record['data']['metadata']:
@@ -401,8 +445,10 @@ class DataSet:
                         genres[source['genre']] = [record]
         return genres
 
-    # get identifiers from sources of items
     def get_sources_identifiers(self):
+        """
+        extract identifers of publication sources and associated record IDs
+        """
         source_idx = {}
         for record in self.records:
             if 'sources' in record['data']['metadata']:
@@ -417,6 +463,9 @@ class DataSet:
         return source_idx
 
     def get_sources_titles(self):
+        """
+        extract titles of publication sources and associated record IDs
+        """
         source_titles = {}
         for record in self.records:
             if 'sources' in record['data']['metadata']:
@@ -428,26 +477,10 @@ class DataSet:
                         source_titles[title] = [record['data']['objectId']]
         return source_titles
 
-    # get items with state 'submitted'
-    def get_items_submitted(self):
-        submitted = {}
-        for record in self.records:
-            if record['data']['publicState'] == 'SUBMITTED':
-                if record['data']['versionState'] == 'SUBMITTED':
-                    submitted[record['persistenceId']] = record['data']
-        return submitted
-
-    # get items with state 'submitted'
-    def get_items_released(self):
-        released = []
-        for record in self.records:
-            if record['data']['publicState'] == 'RELEASED':
-                if record['data']['versionState'] == 'RELEASED':
-                    released.append(record)
-        return released
-
-    # get item from collection by given id
     def get_item(self, item_id):
+        """
+        extract record with given record ID
+        """
         item = {}
         for record in self.records:
             if item_id == record['data']['objectId']:
@@ -457,23 +490,87 @@ class DataSet:
 
     # get items from collection with given genre
     def get_items_with_genre(self, genre):
+        """
+        extract IDs of records with state 'released' and associated records
+        """
         records = {}
         for record in self.records:
             if genre == record['data']['metadata']['genre']:
                 records[record['data']['objectId']] = record
         return records
 
-    def get_items_with_publication_year(self, year):
-        # dateAccepted
-        # dateCreated
-        # dateModified
-        # datePublishedInPrint
-        # datePublishedOnline
-        # dateSubmitted
-        pass
+    def get_items_released(self):
+        """
+        extract IDs of records with state 'released' and associated records
+        """
+        released = []
+        for record in self.records:
+            if record['data']['publicState'] == 'RELEASED':
+                if record['data']['versionState'] == 'RELEASED':
+                    released.append(record)
+        return released
 
-    # get items from collection with given source genre
+    # get items with state 'submitted'
+    def get_items_submitted(self):
+        """
+        extract records with state 'submitted' and associated IDs
+        """
+        submitted = {}
+        for record in self.records:
+            if record['data']['publicState'] == 'SUBMITTED':
+                if record['data']['versionState'] == 'SUBMITTED':
+                    submitted[record['persistenceId']] = record['data']
+        return submitted
+
+    def get_items_from_year(self, year):
+        """
+        extract IDs of records with given publication year
+        """
+        years = self.get_years()
+        if year in years:
+            return years[year]
+        else:
+            return []
+
+    def get_items_from_year_data(self, year):
+        """
+        extract records with given publication year
+        """
+        years = self.get_years_data()
+        if year in years:
+            return years[year]
+        else:
+            return []
+
+    def get_items_with_external_url(self):
+        """
+        extract records with external url
+        """
+        records = {}
+        for record in self.records:
+            if 'files' in record['data']:
+                for f in record['data']['files']:
+                    if f['storage'] == 'EXTERNAL_URL':
+                        records[record['data']['objectId']] = record
+        return records
+
+    def get_items_with_identifier_uri(self):
+        """
+        extract records with identifier uri
+        """
+        records = {}
+        for record in self.records:
+            if 'identifiers' in record['data']['metadata']:
+                identifiers = record['data']['metadata']['identifiers']
+                for idx in identifiers:
+                    if idx['type'] == 'URI':
+                        records[record['data']['objectId']] = record
+        return records
+
     def get_items_with_source_genre(self, source_genre):
+        """
+        extract records with given source genre
+        """
         records = {}
         for record in self.records:
             if 'sources' in record['data']['metadata']:
@@ -483,31 +580,13 @@ class DataSet:
         return records
 
     def get_source_from_items_with_source_genre(self, source_genre):
+        """
+        extract data of record’s source with given source genre
+        """
         records = {}
         for record in self.records:
             if 'sources' in record['data']['metadata']:
                 for source in record['data']['metadata']['sources']:
                     if source_genre == source['genre']:
                         records[record['data']['objectId']] = source
-        return records
-
-    # get items from collection with external url
-    def get_items_with_external_url(self):
-        records = {}
-        for record in self.records:
-            if 'files' in record['data']:
-                for f in record['data']['files']:
-                    if f['storage'] == 'EXTERNAL_URL':
-                        records[record['data']['objectId']] = record
-        return records
-
-    # get items from collection with uri as identifier
-    def get_items_with_identifier_uri(self):
-        records = {}
-        for record in self.records:
-            if 'identifiers' in record['data']['metadata']:
-                identifiers = record['data']['metadata']['identifiers']
-                for idx in identifiers:
-                    if idx['type'] == 'URI':
-                        records[record['data']['objectId']] = record
         return records
