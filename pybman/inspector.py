@@ -5,8 +5,9 @@ from pybman import utils
 
 class Inspector:
 
-    def __init__(self, records):
+    def __init__(self, client, records):
         self.records = records
+        self.client = client
 
     def check_publication_titles(self, clean=False):
         updates = {}
@@ -227,3 +228,115 @@ class Inspector:
         else:
             print("please pass either new and old family name or given name!")
             return updates
+
+    def clean_titles(self):
+
+        print("start cleaning title data!")
+
+        clean_data = self.check_publication_titles(clean=True)
+        total = 0
+        if clean_data:
+            comment = 'auto-update: publication title stripped'
+            for k in clean_data:
+                updated = self.client.update_data(k, clean_data[k]['data'], comment)
+                if updated:
+                    total += 1
+            print("updated", total, "publication titles!")
+        else:
+            print("publication title data is already clean!")
+            print("nothing to do...")
+
+        return total
+
+    def update_genre(self, new_genre, old_genre):
+
+        print("start changing genre from", old_genre, "to", new_genre)
+
+        clean_data = self.change_genre(new_genre, old_genre)
+        total = 0
+        if clean_data:
+            comment = 'auto-update: change genre of item from ' + old_genre + " to " + new_genre
+            for k in clean_data:
+                updated = self.client.update_data(k, clean_data[k]['data'], comment)
+                if updated:
+                    total += 1
+            print("updated genre of", total, "items!")
+        else:
+            print("genre is correctly chosen already!")
+            print("nothing to do...")
+            return 0
+
+    def update_source_genre(self, new_genre, old_genre):
+
+        print("start changing source genre from", old_genre, "to", new_genre)
+
+        clean_data = self.change_source_genre(new_genre, old_genre)
+        total = 0
+        if clean_data:
+            comment = 'auto-update: change source genre of item from ' + old_genre + " to " + new_genre
+            for k in clean_data:
+                updated = self.client.update_data(k, clean_data[k]['data'], comment)
+                if updated:
+                    total += 1
+            print("updated genre of", total, "items!")
+        else:
+            print("source genre is correctly chosen already!")
+            print("nothing to do...")
+            return 0
+
+    def clean_source_titles(self):
+
+        print("start cleaning source titles!")
+
+        clean_data = self.check_source_titles(clean=True)
+        total = 0
+        if clean_data:
+            comment = 'auto-update: source title stripped'
+            for k in clean_data:
+                updated = self.client.update_data(k, clean_data[k]['data'], comment)
+                if updated:
+                    total += 1
+            print("updated", total, "source titles!")
+        else:
+            print("source title data is already clean!")
+            print("nothing to do...")
+
+        return total
+
+    def clean_publishers(self):
+
+        print("start cleaning publisher data!")
+
+        clean_data = self.check_publishers(clean=True)
+        total = 0
+        if clean_data:
+            comment = 'auto-update: remove control characters from publisher value'
+            for k in clean_data:
+                updated = self.client.update_data(k, clean_data[k]['data'], comment)
+                if updated:
+                    total += 1
+        else:
+            print("publisher data is already clean!")
+            print("nothing to do...")
+
+        print("updated", total, "items!")
+        return total
+
+    def clean_publishing_places(self):
+
+        print("start cleaning publishing place data!")
+
+        clean_data = self.check_publishing_places(clean=True)
+        total = 0
+        if clean_data:
+            comment = 'auto-update: remove control characters from publishing place value'
+            for k in clean_data:
+                updated = self.client.update_data(k, clean_data[k]['data'], comment)
+                if updated:
+                    total += 1
+        else:
+            print("publishing place data is already clean!")
+            print("nothing to do...")
+
+        print("updated", total, "items!")
+        return total
