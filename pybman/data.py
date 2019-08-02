@@ -251,6 +251,9 @@ class DataSet:
         return series
 
     def get_years(self):
+        """
+        extract publication years and associated record IDs
+        """
         years = {}
         for record in self.records:
             if 'datePublishedInPrint' in record['data']['metadata']:
@@ -290,10 +293,13 @@ class DataSet:
                 else:
                     years[year] = [record['data']['objectId']]
             else:
-                print("no publication date found for", record['data']['objectId'])
+                print("no publication date found for", record['data']['objectId']+"!")
         return years
 
     def get_years_data(self):
+        """
+        extract publication years and associated records
+        """
         years = {}
         for record in self.records:
             if 'datePublishedInPrint' in record['data']['metadata']:
@@ -333,10 +339,13 @@ class DataSet:
                 else:
                     years[year] = [record]
             else:
-                print("no publication date found for", record['data']['objectId'])
+                print("no publication date found for", record['data']['objectId']+"!")
         return years
 
     def get_languages(self):
+        """
+        extract publication languages and associated record IDs
+        """
         languages = {}
         for record in self.records:
             if 'languages' in record['data']['metadata']:
@@ -352,24 +361,20 @@ class DataSet:
         return languages
 
     def get_languages_data(self):
+        """
+        extract publication languages and associated records
+        """
         languages = {}
         for record in self.records:
             if 'languages' in record['data']['metadata']:
-                lang = record['data']['metadata']['languages']
-                if len(lang) == 1:
-                    if lang[0] in languages:
-                        languages[lang[0]].append(record)
+                langs = record['data']['metadata']['languages']
+                for lang in langs:
+                    if lang in languages:
+                        languages[lang].append(record)
                     else:
-                        languages[lang[0]] = [record]
-                elif len(lang) > 1:
-                    # print(record['data']['objectId'], "has more than one language!")
-                    for l in lang:
-                        if l in languages:
-                            languages[l].append(record)
-                        else:
-                            languages[l] = [record]
-                else:
-                    print(record['data']['objectId'], "has no language!")
+                        languages[lang] = [record]
+            else:
+                print(record['data']['objectId'], "has no language!")
         return languages
 
     # get collection of source genres
