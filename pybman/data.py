@@ -265,6 +265,30 @@ class DataSet:
                     years[year].append(record['data']['objectId'])
                 else:
                     years[year] = [record['data']['objectId']]
+            elif 'dateModified' in record['data']['metadata']:
+                year = record['data']['metadata']['dateModified'].split("-")[0]
+                if year in years:
+                    years[year].append(record['data']['objectId'])
+                else:
+                    years[year] = [record['data']['objectId']]
+            elif 'dateAccepted' in record['data']['metadata']:
+                year = record['data']['metadata']['dateAccepted'].split("-")[0]
+                if year in years:
+                    years[year].append(record['data']['objectId'])
+                else:
+                    years[year] = [record['data']['objectId']]
+            elif 'dateSubmitted' in record['data']['metadata']:
+                year = record['data']['metadata']['dateSubmitted'].split("-")[0]
+                if year in years:
+                    years[year].append(record['data']['objectId'])
+                else:
+                    years[year] = [record['data']['objectId']]
+            elif 'dateCreated' in record['data']['metadata']:
+                year = record['data']['metadata']['dateCreated'].split("-")[0]
+                if year in years:
+                    years[year].append(record['data']['objectId'])
+                else:
+                    years[year] = [record['data']['objectId']]
             else:
                 print("no publication date found for", record['data']['objectId'])
         return years
@@ -280,6 +304,30 @@ class DataSet:
                     years[year] = [record]
             elif 'datePublishedOnline' in record['data']['metadata']:
                 year = record['data']['metadata']['datePublishedOnline'].split("-")[0]
+                if year in years:
+                    years[year].append(record)
+                else:
+                    years[year] = [record]
+            elif 'dateModified' in record['data']['metadata']:
+                year = record['data']['metadata']['dateModified'].split("-")[0]
+                if year in years:
+                    years[year].append(record)
+                else:
+                    years[year] = [record]
+            elif 'dateAccepted' in record['data']['metadata']:
+                year = record['data']['metadata']['dateAccepted'].split("-")[0]
+                if year in years:
+                    years[year].append(record)
+                else:
+                    years[year] = [record]
+            elif 'dateSubmitted' in record['data']['metadata']:
+                year = record['data']['metadata']['dateSubmitted'].split("-")[0]
+                if year in years:
+                    years[year].append(record)
+                else:
+                    years[year] = [record]
+            elif 'dateCreated' in record['data']['metadata']:
+                year = record['data']['metadata']['dateCreated'].split("-")[0]
                 if year in years:
                     years[year].append(record)
                 else:
