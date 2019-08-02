@@ -1,7 +1,3 @@
-# from pybman import local
-# from pybman import export
-
-
 class DataSet:
 
     def __init__(self, data_id, data=None, raw=None):
