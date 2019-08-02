@@ -229,25 +229,6 @@ class Inspector:
             print("please pass either new and old family name or given name!")
             return updates
 
-    def clean_titles(self):
-
-        print("start cleaning title data!")
-
-        clean_data = self.check_publication_titles(clean=True)
-        total = 0
-        if clean_data:
-            comment = 'auto-update: publication title stripped'
-            for k in clean_data:
-                updated = self.client.update_data(k, clean_data[k]['data'], comment)
-                if updated:
-                    total += 1
-            print("updated", total, "publication titles!")
-        else:
-            print("publication title data is already clean!")
-            print("nothing to do...")
-
-        return total
-
     def update_genre(self, new_genre, old_genre):
 
         print("start changing genre from", old_genre, "to", new_genre)
@@ -283,6 +264,25 @@ class Inspector:
             print("source genre is correctly chosen already!")
             print("nothing to do...")
             return 0
+
+    def clean_titles(self):
+
+        print("start cleaning title data!")
+
+        clean_data = self.check_publication_titles(clean=True)
+        total = 0
+        if clean_data:
+            comment = 'auto-update: publication title stripped'
+            for k in clean_data:
+                updated = self.client.update_data(k, clean_data[k]['data'], comment)
+                if updated:
+                    total += 1
+            print("updated", total, "publication titles!")
+        else:
+            print("publication title data is already clean!")
+            print("nothing to do...")
+
+        return total
 
     def clean_source_titles(self):
 
