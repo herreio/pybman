@@ -2,6 +2,7 @@ import re
 
 from pybman import utils
 
+
 class Inspector:
 
     def __init__(self, records):
@@ -60,20 +61,20 @@ class Inspector:
             if 'publishingInfo' in record['data']['metadata']:
                 if 'publisher' in record['data']['metadata']['publishingInfo']:
                     publisher = record['data']['metadata']['publishingInfo']['publisher']
-                    if publisher != et_al.sub("",publisher):
+                    if publisher != et_al.sub("", publisher):
                         item_id = record['data']['objectId']
                         if clean:
-                            record['data']['metadata']['publishingInfo']['publisher'] = et_al.sub("",publisher)
+                            record['data']['metadata']['publishingInfo']['publisher'] = et_al.sub("", publisher)
                         updates[item_id] = record
             if 'sources' in record['data']['metadata']:
                 for source in record['data']['metadata']['sources']:
                     if 'publishingInfo' in source:
                         if 'publisher' in source['publishingInfo']:
                             publisher = source['publishingInfo']['publisher']
-                            if publisher != et_al.sub("",publisher):
+                            if publisher != et_al.sub("", publisher):
                                 item_id = record['data']['objectId']
                                 if clean:
-                                    source['publishingInfo']['publisher'] = et_al.sub("",publisher)
+                                    source['publishingInfo']['publisher'] = et_al.sub("", publisher)
                                 updates[item_id] = record
         return updates
 
@@ -198,7 +199,7 @@ class Inspector:
                 if not found:
                     print("skipping item", record['data']['objectId'])
             else:
-                print("skipping item", record['data']['objectId'],"without sources!")
+                print("skipping item", record['data']['objectId'], "without sources!")
         return updates
 
     def change_pers_name(self, old_family_name=None, new_family_name=None, old_given_name=None, new_given_name=None):

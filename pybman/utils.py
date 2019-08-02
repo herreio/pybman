@@ -40,11 +40,11 @@ def read_csv_with_header(path):
     columns = []
     values = {}
     for name in header:
-        columns.append(name.replace('"',''))
-        values[name.replace('"','')] = []
+        columns.append(name.replace('"', ''))
+        values[name.replace('"', '')] = []
     for row in lines[1:]:
         for i, v in enumerate(row.split(",", 1)):
-            values[columns[i]].append(v.replace('"',''))
+            values[columns[i]].append(v.replace('"', ''))
     return values
 
 

@@ -13,6 +13,7 @@ class ConeQuery:
     def __init__(self):
         pass
 
+
 class AllQuery:
 
     def __init__(self):
@@ -29,6 +30,7 @@ class AllQuery:
     def get_locators_query(self):
         data = deepcopy(self.locators_query)
         return data
+
 
 class ContextQuery:
 
@@ -120,6 +122,7 @@ class LangQuery:
         data = deepcopy(self.item_released_query)
         data['query']['bool']['must'][2]['term']['metadata.languages']['value'] = lang_id
         return data
+
 
 class JournalQuery:
 

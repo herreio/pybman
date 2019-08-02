@@ -367,7 +367,7 @@ class DataSet:
                                 source_idx[identifier_type] = [record['data']['objectId']]
         return source_idx
 
-    def get_sources_titles(self, genre=None):
+    def get_sources_titles(self):
         source_titles = {}
         for record in self.records:
             if 'sources' in record['data']['metadata']:
