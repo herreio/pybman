@@ -24,7 +24,7 @@ class DataSet:
 
     def get_creators(self):
         """
-        extract creators from records
+        extract data of creators from records
         """
         creators = []
         for record in self.records:
