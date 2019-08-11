@@ -390,8 +390,8 @@ class DataSet:
         """
         languages = {}
         for record in self.records:
+            item_idx = extract.idx_from_item(record)
             if 'languages' in extract.metadata(record):
-                item_idx = extract.idx_from_item(record)
                 langs = extract.languages_from_item(record)
                 for lang in langs:
                     if lang in languages:
@@ -403,7 +403,7 @@ class DataSet:
                 if 'NONE' in languages:
                     languages['NONE'].append(item_idx)
                 else:
-                    languages['NONE'].append(item_idx)
+                    languages['NONE'] = [item_idx]
         return languages
 
     def get_languages_data(self):
@@ -412,15 +412,20 @@ class DataSet:
         """
         languages = {}
         for record in self.records:
-            if 'languages' in record['data']['metadata']:
-                langs = record['data']['metadata']['languages']
+            item_idx = extract.idx_from_item(record)
+            if 'languages' in extract.metadata(record):
+                langs = extract.languages_from_item(record)
                 for lang in langs:
                     if lang in languages:
                         languages[lang].append(record)
                     else:
                         languages[lang] = [record]
             else:
-                print(record['data']['objectId'], "has no language!")
+                print(item_idx, "has no language!")
+                if 'NONE' in languages:
+                    languages['NONE'].append(item_idx)
+                else:
+                    languages['NONE'] = [item_idx]
         return languages
 
     def get_source_genres(self):
