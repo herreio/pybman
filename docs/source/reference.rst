@@ -17,6 +17,14 @@ pybman.data module
     :undoc-members:
     :show-inheritance:
 
+pybman.extract module
+------------------
+
+.. automodule:: pybman.extract
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 pybman.inspector module
 -----------------------
 
