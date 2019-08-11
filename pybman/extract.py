@@ -168,7 +168,7 @@ def field_from_metadata(field, item, value=True):
     else:
         return list_from_level(field, metadata(item))
 
-def languages_from_items(item):
+def languages_from_item(item):
     """
     extract languages of item
     """
