@@ -31,7 +31,7 @@ def write_csv(path, results):
     print("write csv to file", path)
     with open(path, "w+", encoding="utf8") as f:
         for row in results:
-            row = [r.replace('"',"'") for r in row]
+            row = [clean_string(r.replace('"',"'")) for r in row]
             f.write('"' + '","'.join(row) + '"\n')
 
 
