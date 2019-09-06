@@ -56,7 +56,7 @@ class Inspector:
         return updates
 
     def check_publishers_omission(self, clean=False):
-        et_al = re.compile(r"\s\[et\.? ?al\.?\]|\s\[u\.?\s?a\.?\]|\s\[etc\.?\]")
+        et_al = re.compile(r"\s\[et\.? ?al\.?\s?\]|\s\[u\.?\s?a\.?\]|\s\[etc\.?\]")
         updates = {}
         for record in self.records:
             if 'publishingInfo' in record['data']['metadata']:
@@ -103,7 +103,7 @@ class Inspector:
         return updates
 
     def check_publishing_places_omission(self, clean=False):
-        et_al = re.compile(r"\s\[et\.? ?al\.?\]|\s\[u\.?\s?a\.?\]|\s\[etc\.?\]")
+        et_al = re.compile(r"\s\[et\.? ?al\.?\s?\]|\s\[u\.?\s?a\.?\]|\s\[etc\.?\]")
         updates = {}
         for record in self.records:
             if 'publishingInfo' in record['data']['metadata']:
