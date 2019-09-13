@@ -10,7 +10,7 @@
 
 __pycache__
 
-#conf
+conf
 docs/build
 
 dev*.py
