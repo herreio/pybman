@@ -78,7 +78,7 @@ Launch the Python interpreter and start by importing the necessary modules from 
         print(role+':', first_name, last_name, '('+ id_val +')')
 
 
-Beside data retrieval and browsing Pybman also allows to update items! Because this process requires certain rights, you have to provide credentials. The easiest way is to create a `secret.json <./conf/secret.json>`_ file with your PuRe login (replace `userName:userPassword`) and hand in the path pointing to it when creating the client instance.
+Beside data retrieval and browsing Pybman also allows to update items! Because this process requires certain rights, you have to provide credentials. The easiest way is to create a `secret.json <./conf/secret.json>`_ file with your PuRe login (replace :code:`userName:userPassword`) and hand in the path pointing to it when creating the client instance.
 
 
 .. code-block:: python
