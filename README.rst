@@ -33,7 +33,7 @@ You can simply install this package via `PyPI <https://pypi.org/project/pybman/>
 Usage
 -----
 
-Launch the Python interpreter and start by importing the necessary modules from pybman:
+Launch the Python interpreter and start by importing the necessary modules:
 
 .. code-block:: python
 
