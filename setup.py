@@ -9,11 +9,11 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="pybman",
-    version="2019.8.22",
+    version="2019.9.15",
     author="Donatus Herre",
     author_email="pypi@herre.io",
     license="GPL",
-    description="Python package (under development) for interacting with MPG.PuRe",
+    description="Python package for interacting with MPG.PuRe",
     long_description=README,
     url="https://github.com/herreio/pybman/",
     packages=setuptools.find_packages(),
