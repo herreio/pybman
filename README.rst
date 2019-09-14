@@ -14,7 +14,7 @@ A minimal documentation can be found on `Read the Docs <https://pybman.readthedo
 Installation
 ------------
 
-You can simply install this package via `pip <https://pypi.org/project/pybman/>`_:
+You can simply install this package via `PyPI <https://pypi.org/project/pybman/>`_:
 
 .. code-block:: shell
 
@@ -82,7 +82,7 @@ Launch the Python interpreter and start by importing the necessary modules from 
         print(role+':', first_name, last_name, '('+ id_val +')')
 
 
-Beside data retrieval and browsing Pybman also allows to update items! Because this process requires certain rights, you have to provide credentials. The easiest way is to create a `secret.json <./conf/secret.json>`_ file with your PuRe login (replace :code:`userName:userPassword`) and hand in the path pointing to it when creating the client instance.
+Beside data retrieval and browsing Pybman also allows to update items! Because this process requires certain rights, you have to provide credentials. The easiest way is to create a `secret.json <./conf/secret.json>`_ file with your PuRe login (:code:`userName:userPassword`) and hand in the path pointing to it when creating the client instance. (Please use a different location for storing the :code:`secret.json`-file than the one in this repo as it will be tracked by git. Or alternatively tell git to not take care of your changes of it by running the command :shell:`git update-index --assume-unchanged conf/secret.json`.)
 
 
 .. code-block:: python
