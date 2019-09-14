@@ -87,6 +87,7 @@ Beside data retrieval and browsing Pybman also allows to update items! Because t
 
 .. code-block:: python
 
+    # intialize client instance (login)
     cl_auth = Client(secret="./conf/secret.json")
 
     # retrieve context you are allowed to modify
@@ -94,9 +95,9 @@ Beside data retrieval and browsing Pybman also allows to update items! Because t
 
     # choose item to change
     item = ctx.records[0]
-    
+
     # change title (string strip)
-    title = item['data']['metadata']['title']
+    title = extract.title_from_item(item)
     title = title.strip()
     item['data']['metadata']['title'] = title
 
@@ -108,3 +109,17 @@ Beside data retrieval and browsing Pybman also allows to update items! Because t
 
     # update data in repository
     cl_auth.update_data(identifier, item['data'], comment)
+
+    # to change values in collection of items use inspector class
+    from pybman import Inspector
+    from pybman import DataSet
+
+    # create data set of released items
+    ctx_released = DataSet(data_id="ctx_924547_released", raw=ctx.get_items_released())
+
+    # create inspector instance of all released items from context
+    inspector = Inspector(cl_auth, ctx_released.records)
+
+    # strip title strings, i.e. remove leading and trailing white spaces
+    titles = inspector.clean_titles()
+    print("successfully cleaned", titles, "titles!")
