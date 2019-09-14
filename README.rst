@@ -4,7 +4,7 @@ Pybman (*work in progress*)
 Synopsis
 --------
 
-This is a python package for interacting with `MPG.PuRe <https://pure.mpg.de>`_ via the `PubMan REST API <https://pure.mpg.de/rest/swagger-ui.html>`_.
+This is a Python package for interacting with `MPG.PuRe <https://pure.mpg.de>`_ via the `PubMan REST API <https://pure.mpg.de/rest/swagger-ui.html>`_.
 
 
 Installation
@@ -16,8 +16,23 @@ You can simply install this package via `pip <https://pypi.org/project/pybman/>`
 
     pip install pybman
 
+... or obviously by cloning this repository:
+
+.. code-block:: shell
+
+    git clone https://github.com/herreio/pybman.git
+    cd pybman
+
 Usage
 -----
+
+Launch the Python interpreter:
+
+.. code-block:: shell
+
+    python
+
+... and start by importing necessary modules from pybman:
 
 .. code-block:: python
 
