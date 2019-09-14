@@ -1,4 +1,4 @@
-Pybman (*work in progress*)
+Pybman
 =============================
 
 Synopsis
