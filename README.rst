@@ -26,7 +26,7 @@ You can simply install this package via `pip <https://pypi.org/project/pybman/>`
 Usage
 -----
 
-Launch the Python and start by importing necessary modules from pybman:
+Launch the Python interpreter and start by importing necessary modules from pybman:
 
 .. code-block:: python
 
