@@ -23,7 +23,7 @@ You can simply install this package via `PyPI <https://pypi.org/project/pybman/>
 
     pip install pybman
 
-... or obviously by cloning this repository:
+... or by cloning the repository:
 
 .. code-block:: shell
 
