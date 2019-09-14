@@ -98,7 +98,9 @@ Beside data retrieval and browsing Pybman also allows to update items! Because t
 
     # get identifier from item
     identifier = extract.idx_from_item(item)
+
     # comment on the changes
     comment = 'delete unnecessary white space'
+
     # update data in repository
     cl_auth.update_data(identifier, item['data'], comment)
