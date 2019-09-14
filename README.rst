@@ -83,7 +83,7 @@ Beside data retrieval and browsing Pybman also allows to update items! Because t
 
 .. code-block:: python
 
-    cl_auth = Client(secret="./secret.json")
+    cl_auth = Client(secret="./conf/secret.json")
 
     # retrieve context you are allowed to modify
     ctx = cl_auth.get_data(ctx_id="ctx_924547")
