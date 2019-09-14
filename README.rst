@@ -1,3 +1,6 @@
+.. role:: shell(code)
+   :language: shell
+
 Pybman
 =============================
 
