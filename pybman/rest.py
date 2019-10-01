@@ -28,6 +28,15 @@ class RestController(BaseController):
 
         # rest interface
         self.rest = self.url + 'rest/'
+        self.docs = self.rest + 'v2/api-docs'
+        
+        self.header = {'accept': 'application/json', 'Content-Type': 'application/json'}
+    
+    def get_docs(self):
+        """
+        retrieve api docs of rest interface
+        """
+        return utils.get_request(self.docs, headers=self.header)
 
 
 class LoginRestController(RestController):
@@ -55,7 +64,7 @@ class LoginRestController(RestController):
         self.online = False
 
         self.accept = {'accept': 'application/json'}
-        self.header = {'accept': 'application/json', 'Content-Type': 'application/json'}
+        # self.header = {'accept': 'application/json', 'Content-Type': 'application/json'}
         self.auth_header = deepcopy(self.accept)
 
         if auth:
@@ -126,7 +135,7 @@ class ItemRestController(LoginRestController):
         self.rest_items_search_scroll = self.rest_items + 'search/scroll?'
 
         self.params = {'format': 'json', 'scroll': 'true'}
-        self.header = {"accept": "application/json", "Content-Type": "application/json"}
+        # self.header = {"accept": "application/json", "Content-Type": "application/json"}
         self.query = {"query": {"term": {"context.objectId": {"value": "ctx_924547", "boost": 1.0}}},
                       "size": "50", "from": "0"}
 
