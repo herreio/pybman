@@ -193,3 +193,10 @@ def url_exists2(url):
 # resolve path of package files
 def resolve_path(path):
     return pkg_resources.resource_filename('pybman', path)
+
+# add value to dict check if exists before
+def add_value(d, dkey="",dvalue=""):
+    if dkey in d:
+        d[dkey].append(dvalue)
+    else:
+        d[dkey] = [dvalue]
