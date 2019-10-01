@@ -389,17 +389,29 @@ class DataSet:
         extract publication languages and associated record IDs
         """
         languages = {}
+        total = 0
         for record in self.records:
             item_idx = extract.idx_from_item(record)
             if 'languages' in extract.metadata(record):
                 langs = extract.languages_from_item(record)
-                for lang in langs:
+                if len(langs) == 1:
+                    lang = langs[0]
                     if lang in languages:
                         languages[lang].append(item_idx)
                     else:
                         languages[lang] = [item_idx]
+                else:
+                    if 'MULTI' in languages:
+                        languages['MULTI'].append( (item_idx, langs)) 
+                    else:
+                        languages['MULTI'] = [ (item_idx, langs) ]
+                #for lang in langs:
+                #    if lang in languages:
+                #        languages[lang].append(item_idx)
+                #    else:
+                #        languages[lang] = [item_idx]
             else:
-                print(record['data']['objectId'], "has no language!")
+                # print(record['data']['objectId'], "has no language!")
                 if 'NONE' in languages:
                     languages['NONE'].append(item_idx)
                 else:
@@ -415,17 +427,28 @@ class DataSet:
             item_idx = extract.idx_from_item(record)
             if 'languages' in extract.metadata(record):
                 langs = extract.languages_from_item(record)
-                for lang in langs:
+                if len(langs) == 1:
+                    lang = langs[0]
                     if lang in languages:
                         languages[lang].append(record)
                     else:
                         languages[lang] = [record]
-            else:
-                print(item_idx, "has no language!")
-                if 'NONE' in languages:
-                    languages['NONE'].append(item_idx)
                 else:
-                    languages['NONE'] = [item_idx]
+                    if 'MULTI' in languages:
+                        languages['MULTI'].append(record) 
+                    else:
+                        languages['MULTI'] = [record]
+                #for lang in langs:
+                #    if lang in languages:
+                #        languages[lang].append(record)
+                #    else:
+                #        languages[lang] = [record]
+            else:
+                # print(item_idx, "has no language!")
+                if 'NONE' in languages:
+                    languages['NONE'].append(record)
+                else:
+                    languages['NONE'] = [record]
         return languages
 
     def get_source_genres(self):
